@@ -1,8 +1,10 @@
 <template>
+  <transition name="slide">
   <div class="logo col-12 col-sm-10 col-lg-8">
       <img class="img-responsive mx-auto" alt="easyWallet logo" src="../assets/logo.png">
       <router-view></router-view>
   </div>
+  </transition>
 </template>
 
 <script>
