@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'Welcome',
+  name: 'ManageWallet',
   data () {
     return {
       msg: ''

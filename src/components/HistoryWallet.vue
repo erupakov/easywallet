@@ -1,10 +1,9 @@
 <template>
-
 </template>
 
 <script>
 export default {
-  name: 'Welcome',
+  name: 'HistoryWallet',
   data () {
     return {
       msg: ''
