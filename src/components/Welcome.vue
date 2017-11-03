@@ -1,5 +1,8 @@
 <template>
-
+<div id="child-container">
+<b-button variant="button">Create account</b-button>
+<b-link to="/home/login">Already have account? Login here</b-link>
+</div>
 </template>
 
 <script>
@@ -13,23 +16,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
+<style>
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
 </style>

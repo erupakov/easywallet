@@ -1,20 +1,22 @@
 <template>
   <transition name="slide">
-  <div class="logo col-12 col-sm-10 col-lg-8">
-      <img class="img-responsive mx-auto" alt="easyWallet logo" src="../assets/logo.png">
-      <router-view></router-view>
+      <div>
+  <div class="row" style="padding-top: 2em;">
+      <img class="logo mx-auto" alt="easyWallet logo" src="../assets/logo.png" />
   </div>
+  <div class="row" style="margin-top: 2em;">
+      <router-view slot="child-container"></router-view>
+  </div>
+      </div>
   </transition>
 </template>
 
 <script>
-import Welcome from '@/components/Welcome'
-
 export default {
   name: 'LogoLayout',
   data () {
     return {
-        msg: 'Hello'
+      msg: this.$lang.messages.hello_world
     }
   }
 }
@@ -23,7 +25,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .logo {
-    margin-top: 1em;
     width: 260px;
+    height: 100%;
 }
+
 </style>
