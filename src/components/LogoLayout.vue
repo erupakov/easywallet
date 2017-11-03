@@ -14,29 +14,10 @@ export default {
   name: 'LogoLayout',
   data () {
     return {
+        msg: 'Hello'
     }
   }
-  }
-  
-  
-      routes:[
-    {
-        path: '/',
-        name: 'Welcome',
-        component: Welcome
-    },
-    {
-        path: '/home',
-        name: 'LogoLayout',
-        component: LogoLayout
-    },
-    {
-        path: '/account',
-        name: 'AccountLayout',
-        component: AccountLayout
-    }
-  ]      
-  })
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
