@@ -5,8 +5,8 @@
         <p>{{ backup_msg }}</p>
         <b-form-textarea rows="6"/>
         <div class="my-2 mx-auto">
-        <b-button variant="danger" v-on:click="goBack" id="btnBack">{{ btn_back_msg }}</b-button>        
-        <b-button variant="primary" to="/home/name" id="btnNameAccount">{{ btn_confirm_msg }}</b-button>
+	        <b-button variant="danger" v-on:click="goBack" id="btnBack">{{ btn_back_msg }}</b-button>        
+	        <b-button variant="primary" to="/home/name" id="btnNameAccount">{{ btn_confirm_msg }}</b-button>
         </div>
     </div>
 </div>
