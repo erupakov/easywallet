@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div>   
   <div class="row pt-5">
       <img class="logo mx-auto" alt="easyWallet logo" src="../assets/logo.png" />
   </div>
