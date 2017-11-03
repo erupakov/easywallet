@@ -1,10 +1,13 @@
 <template>
   <transition name="slide">
       <div>
-  <div class="row" style="padding-top: 2em;">
+  <div class="row pt-4">
       <img class="logo mx-auto" alt="easyWallet logo" src="../assets/logo.png" />
   </div>
-  <div class="row" style="margin-top: 2em;">
+  <div class="row my-4 d-flex justify-content-center">
+      <h3>easyWallet</h3>
+  </div>
+  <div class="row mt-4">
       <router-view slot="child-container"></router-view>
   </div>
       </div>
