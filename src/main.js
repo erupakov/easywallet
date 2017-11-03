@@ -8,11 +8,13 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Lang from 'vuejs-localization'
+import Notifications from 'vue-notification'
 
 Lang.requireAll(require.context('../lang', true, /\.js$/))
 
 Vue.use(BootstrapVue)
 Vue.use(Lang)
+Vue.use(Notifications)
 
 Vue.config.productionTip = false
 

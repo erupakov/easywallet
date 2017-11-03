@@ -1,5 +1,8 @@
 <template>
-    <router-view/>
+<div>
+    <notifications group="flash" />
+    <router-view />
+</div>
 </template>
 
 <script>

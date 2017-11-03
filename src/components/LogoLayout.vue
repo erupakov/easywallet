@@ -13,6 +13,8 @@
 export default {
   name: 'LogoLayout',
   data () {
+    return {
+    }
   }
 }
 </script>
