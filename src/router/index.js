@@ -25,7 +25,6 @@ export default new Router({
     },
     {
       path: '/home',
-      name: 'LogoLayout',
       component: LogoLayout,
       children: [
         {
@@ -60,11 +59,10 @@ export default new Router({
     },
     {
       path: '/account',
-      name: 'AccountLayout',
       component: AccountLayout,
       children: [
         {
-          path: '',
+          path: '/',
           redirect: 'manage'
         },
         {
