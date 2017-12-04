@@ -45,7 +45,7 @@ export default {
           text: 'Seed phrase correct, opening wallet.'
         })
 
-        this.$router.to('/home/name')
+        this.$router.push('/home/name')
       }
     }
   }

@@ -46,7 +46,7 @@ export default {
           text: 'Seed phrase correct, opening wallet.'
         })
         this.$session.set('mnemonicPhrase', this.seed_phrase)
-        this.$router.to('/home/name')
+        this.$router.push('/home/name')
       }
     }
   }
