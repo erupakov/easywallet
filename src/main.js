@@ -7,23 +7,25 @@ import router from './router'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'vuetify/dist/vuetify.min.css'
 import Lang from 'vuejs-localization'
 import Notifications from 'vue-notification'
 import Web3 from 'web3'
-import Vuetify from 'vuetify'
- 
+import VueSessionStorage from 'vue-sessionstorage'
+
 Lang.requireAll(require.context('../lang', true, /\.js$/))
 
 Vue.use(BootstrapVue)
 Vue.use(Lang)
 Vue.use(Notifications)
-Vue.use(Vuetify)
+Vue.use(VueSessionStorage)
 
 Vue.config.productionTip = false
 
 var web3
 
 // set provider for all later instances to use
+
 if (typeof web3 !== 'undefined') {
   web3 = new Web3(web3.currentProvider)
 } else {
@@ -37,5 +39,9 @@ new Vue({
   template: '<App/>',
   components: {
     App
+  },
+  data () {
+    return {
+    }
   }
 })

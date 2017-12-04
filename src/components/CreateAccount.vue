@@ -4,7 +4,7 @@
     <div class="d-flex flex-column text-center">
         <h3>{{ title_msg }}</h3>
         <p>{{ backup_msg }}</p>
-        <b-form-textarea :value="seed_phrase" rows="6"/>
+        <b-form-textarea :value="seed_phrase" rows="4" readonly/>
         <div class="my-2 mx-auto">
 	        <b-button variant="danger" v-on:click="goBack" id="btnBack">{{ btn_back_msg }}</b-button>        
 	        <b-button variant="primary" to="/home/confirm" id="btnManageAccount">{{ btn_copied_msg }}</b-button>
@@ -15,6 +15,8 @@
 </template>home
 
 <script>
+import bip39 from 'bip39'
+
 export default {
   name: 'CreateAccount',
   data () {
@@ -28,6 +30,10 @@ export default {
   },
   mounted: function () {
     this.$nextTick(function () {
+      // show the words
+      var words = bip39.generateMnemonic()
+      this.$session.set('mnemonicPhrase', words)
+      this.seed_phrase = words
       this.$notify({
         group: 'flash',
         title: 'Account created',

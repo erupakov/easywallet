@@ -14,6 +14,8 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "bip39": "^2.4.0",
+    "bitcoinjs-lib": "^3.3.1",
     "bootstrap": "^4.0.0-beta.2",
     "bootstrap-vue": "^1.0.0-beta.9",
     "jquery": "^1.9.1",
@@ -21,8 +23,9 @@
     "vue": "^2.5.2",
     "vue-notification": "^1.3.4",
     "vue-router": "^3.0.1",
+    "vue-sessionstorage": "^1.0.0",
     "vuejs-localization": "^1.0.2",
-    "web3": "^1.0.0-beta.24"
+    "web3": "^1.0.0-beta.26"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
