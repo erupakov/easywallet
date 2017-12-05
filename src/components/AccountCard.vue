@@ -1,6 +1,6 @@
 <template>
-<div class="card m-2 col-lg-3 col-md-4 col-sm-6 col-xs-6">
-  <img class="card-img-top" src="" alt="Card image cap">
+<div class="card">
+  <div class="card-header">Ethereum</div>
   <div class="card-body">
     <h4 class="card-title">{{ account_name }}</h4>
     <p class="card-text">{{ account_address }}</p>

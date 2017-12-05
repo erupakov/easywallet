@@ -2,8 +2,10 @@
 <transition name="slide">
 <div class="container-fluid">
 	<div class="row">
+	<div class="card-deck">
     <account-card v-for="ac in test_accounts" :key="ac.id" v-bind:account-id="ac.id" v-bind:account-name="ac.name"
     v-bind:account-address="ac.address" v-bind:account-type="ac.type"></account-card>
+	</div>
 	</div>
 	<div class="row">
 	<div class="col-xs-6 col-sm-5 col-md-4">
