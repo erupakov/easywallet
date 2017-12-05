@@ -4,7 +4,11 @@
 	<div class="row">
     <account-card v-for="ac in test_accounts" :key="ac.id" v-bind:account-id="ac.id" v-bind:account-name="ac.name"
     v-bind:account-address="ac.address" v-bind:account-type="ac.type"></account-card>
-    <b-button variant="primary" to="/home/newaccount" id="btnCreateAccount">{{ create_account_msg }}</b-button>
+	</div>
+	<div class="row">
+	<div class="col-xs-6 col-sm-5 col-md-4">
+    <b-button variant="primary" block="true" to="/home/newaccount" class="my-2" id="btnCreateAccount">{{ create_account_msg }}</b-button>
+	</div>
 	</div>
 </div>
 </transition>
@@ -18,6 +22,7 @@ export default {
   data () {
     return {
       choose_msg: this.$lang.choose_account.choose_text,
+      create_account_msg: 'Create new account',
       test_accounts: [
         {
           id: 1,
