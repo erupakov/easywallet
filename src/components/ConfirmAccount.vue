@@ -6,7 +6,7 @@
         <b-form-textarea rows="4"  v-model="seed_phrase" placeholder="Enter seed phrase"/>
         <div class="my-2 mx-auto">
 	        <b-button variant="danger" v-on:click="goBack" id="btnBack">{{ btn_back_msg }}</b-button>        
-	        <b-button variant="primary" v-on:click="checkSeed" id="btnNameAccount">{{ btn_confirm_msg }}</b-button>
+	        <b-button variant="primary" v-on:click="checkSeed" id="btnConfirm">{{ btn_confirm_msg }}</b-button>
         </div>
     </div>
 </div>

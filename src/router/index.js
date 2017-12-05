@@ -5,6 +5,7 @@ import LogoLayout from '@/components/LogoLayout'
 import AccountLayout from '@/components/AccountLayout'
 import CreateAccount from '@/components/CreateAccount'
 import ConfirmAccount from '@/components/ConfirmAccount'
+import ChooseAccount from '@/components/ChooseAccount'
 import LoginAccount from '@/components/LoginAccount'
 import NameAccount from '@/components/NameAccount'
 import PasswordAccount from '@/components/PasswordAccount'
@@ -54,6 +55,10 @@ export default new Router({
         {
           path: 'login',
           component: LoginAccount
+        },
+        {
+          path: 'choose',
+          component: ChooseAccount
         }
       ]
     },

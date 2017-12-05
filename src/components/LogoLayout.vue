@@ -11,19 +11,17 @@
 
 <script>
 export default {
-  name: 'LogoLayout',
-  data () {
-    return {
-    }
+  name: "LogoLayout",
+  data() {
+    return {};
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .logo {
-    width: 260px;
-    height: 100%;
+  width: 260px;
+  height: 100%;
 }
-
 </style>
