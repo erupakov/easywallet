@@ -1,25 +1,27 @@
 <template>
-  <b-card :title="account-name"
-          :img-src="image_src"
-          :img-alt="image_alt"
-          img-top
-          :tag="account-name"
-          style="max-width: 20rem;"
-          class="mb-2">
-    <p class="card-text">{{ account-address }}</p>
+<div class="card m-2 col-lg-3 col-md-4 col-sm-6 col-xs-6">
+  <img class="card-img-top" src="" alt="Card image cap">
+  <div class="card-body">
+    <h4 class="card-title">{{ account_name }}</h4>
+    <p class="card-text">{{ account_address }}</p>
     <b-button v-on:click="removeAccount" variant="danger">{{ btn_remove_msg }}</b-button>
     <b-button v-on:click="chooseAccount" variant="primary">{{ btn_choose_msg }}</b-button>
-  </b-card>
+  </div>
+</div>
 </template>
 
 <script>
 export default {
   name: 'AccountCard',
-  props: [ 'account-id', 'account-name', 'account-address', 'account-type'],
+  props: [ 'accountId', 'accountName', 'accountAddress', 'accountType' ],
   data () {
     return {
       btn_remove_msg: this.$lang.choose_account.btn_remove_text,
-      btn_choose_msg: this.$lang.choose_account.btn_choose_text
+      btn_choose_msg: this.$lang.choose_account.btn_choose_text,
+      account_name: this.accountName,
+      account_address: this.accountAddress,
+      image_src: '',
+      image_alt: ''
     }
   },
   methods: {
@@ -28,8 +30,8 @@ export default {
     },
     removeAccount: function (event) {
       alert('Removed!')
-    },
     }
+  }
 }
 </script>
 

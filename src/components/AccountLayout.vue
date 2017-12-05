@@ -20,22 +20,22 @@
 
 <script>
 export default {
-  name: "LoginAccount",
-  data() {
+  name: 'AccountLayout',
+  data () {
     return {
-      acc_address: "0x9289234263489023786478",
-      acc_name: "Main account"
-    };
+      acc_address: '0x9289234263489023786478',
+      acc_name: 'Main account'
+    }
   },
   methods: {
-    copyAddress: function(event) {
-      return;
+    copyAddress: function (event) {
+
     },
-    logoutWallet: function(event) {
-      return;
+    logoutWallet: function (event) {
+
     }
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

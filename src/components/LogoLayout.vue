@@ -11,11 +11,11 @@
 
 <script>
 export default {
-  name: "LogoLayout",
-  data() {
-    return {};
+  name: 'LogoLayout',
+  data () {
+    return {}
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

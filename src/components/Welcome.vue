@@ -5,6 +5,7 @@
         <h3>{{ welcome_msg }}</h3>
         <b-button variant="primary" to="/home/create" id="btnCreateAccount" class="my-2 mx-auto">{{ create_account_msg }}</b-button>
         <b-link to="/home/login" >{{ click_msg }}</b-link>
+        <b-link to="/home/choose" >Choose account</b-link>
     </div>
 </div>
 </transition>
