@@ -5,5 +5,6 @@ module.exports = {
   btn_back_text: 'Back',
   enter_pwd_text: 'Enter a strong password',
   enter_name_tip_text: 'Eg. "My main account"',
-  enter_name_text: 'Enter name for your account'
+  enter_name_text: 'Enter name for your account',
+  generating_account_text: 'Generating account...'
 }
