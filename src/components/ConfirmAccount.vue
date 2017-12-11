@@ -16,7 +16,7 @@
 <script>
 import bip39 from 'bip39'
 import bitcoinjs from 'bitcoinjs-lib'
-import ethUtil from 'ethereumjs-utils'
+import ethUtil from 'ethereumjs-util'
 
 export default {
   name: 'ConfirmAccount',
@@ -26,7 +26,7 @@ export default {
       btn_confirm_msg: this.$lang.confirm_account.btn_confirm_text,
       btn_back_msg: this.$lang.confirm_account.btn_back_text,
       seed_phrase: ''
-    };
+    }
   },
   methods: {
     goBack: function (event) {
@@ -51,7 +51,6 @@ export default {
 
         var seed = null
         var bip32RootKey = null
-        var bip32ExtendedKey = null
         var network = bitcoinjs.bitcoin.networks.bitcoin
         // calculate seed
         seed = bip39.toSeed(words, null)
@@ -61,32 +60,37 @@ export default {
         // clear words
         this.$session.clear('mnemonicPhrase')
         words = null
+        var derivePath = 'm/44\'/60\'/0\'/0'
         var bip39ExtendedKey = this.calcBip39ExtendedKey(
-          'm/44\'/60\'/0\'/0',
+          derivePath,
           bip32RootKey
         )
         // TODO: calculate currect account index according BIP-44 directions
         // on address gaping
+        var account0 = this.deriveKey(0, bip39ExtendedKey)
         // create initial wallet structure
         var wallet = {
           rootKey: bip32RootKey,
-          extendedKey: bip32ExtendedKey,
+          extendedKey: bip39ExtendedKey,
           accounts: [
             {
-              type: 0,
+              type: 'ethereum',
               name: '',
               password: '',
-              derivePath: '',
-              balance: ''
+              derivePath: derivePath + '/0',
+              balance: '0',
+              private: account0.private,
+              public: account0.public,
+              address: account0.address
             }
           ]
-        };
+        }
         this.$session.set('wallet', wallet)
         this.$session.set('selectedAccountIndex', 0)
         this.$router.push('/home/name')
       }
     },
-    calcBip32ExtendedKey: function(path, bip32RootKey) {
+    calcBip32ExtendedKey: function (path, bip32RootKey) {
       // Check there's a root key to derive from
       if (!bip32RootKey) {
         return bip32RootKey
@@ -100,7 +104,7 @@ export default {
         if (isNaN(index)) {
           continue
         }
-        var hardened = bit[bit.length - 1] === '\'';
+        var hardened = bit[bit.length - 1] === '\''
         var isPriv = !extendedKey.isNeutered()
         var invalidDerivationPath = hardened && !isPriv
         if (invalidDerivationPath) {
@@ -113,15 +117,21 @@ export default {
       }
       return extendedKey
     },
-    deriveKey: function(index, extendedKey) {
+    deriveKey: function (index, extendedKey) {
       var key = extendedKey.derive(index)
+      var address = key.getAddress().toString()
+      var privkey = 'NA'
+      if (!key.isNeutered()) {
+        privkey = key.keyPair.toWIF(bitcoinjs.bitcoin.networks.bitcoin)
+      }
+      var pubkey = key.getPublicKeyBuffer().toString('hex')
       var privKeyBuffer = key.keyPair.d.toBuffer()
       var addressBuffer = ethUtil.privateToAddress(privKeyBuffer)
       var hexAddress = addressBuffer.toString('hex')
       var checksumAddress = ethUtil.toChecksumAddress(hexAddress)
-      var address = ethUtil.addHexPrefix(checksumAddress)
-      var privkey = ethUtil.addHexPrefix(privkey)
-      var pubkey = ethUtil.addHexPrefix(pubkey)
+      address = ethUtil.addHexPrefix(checksumAddress)
+      privkey = ethUtil.addHexPrefix(privkey)
+      pubkey = ethUtil.addHexPrefix(pubkey)
       return { private: privkey, public: pubkey, address: address }
     }
   }

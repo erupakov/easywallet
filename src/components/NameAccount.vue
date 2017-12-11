@@ -21,7 +21,10 @@ export default {
   name: 'NameAccount',
   data () {
     return {
-      msg: ''
+      enter_name_msg: this.$lang.confirm_account.enter_name_text,
+      enter_name_tip_msg: this.$lang.confirm_account.enter_name_tip_text,
+      btn_confirm_msg: this.$lang.confirm_account.btn_confirm_text,
+      enter_pwd_msg: this.$lang.confirm_account.enter_pwd_text
     }
   }
 }
