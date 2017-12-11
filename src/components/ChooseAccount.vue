@@ -12,6 +12,15 @@
     <b-button variant="primary" block="true" to="/home/newaccount" class="my-2" id="btnCreateAccount">{{ create_account_msg }}</b-button>
 	</div>
 	</div>
+<div>
+  <!-- Modal Component -->
+  <b-modal id="modalRemove" :title="remove_text_title">
+    <p class="my-4">{{ remove_text_intro }}</p>
+	<div class="alert alert-danger">{{ remove_text_warning }}</div>
+	<p><strong>Main account</strong></p>
+	<p>0x342ba7a5d6c67f7e6893</p>
+  </b-modal>
+</div>
 </div>
 </transition>
 </template>
@@ -25,6 +34,9 @@ export default {
     return {
       choose_msg: this.$lang.choose_account.choose_text,
       create_account_msg: 'Create new account',
+      remove_text_title: this.$lang.choose_account.remove_text_title,
+      remove_text_intro: this.$lang.choose_account.remove_text_intro,
+      remove_text_warning: this.$lang.choose_account.remove_text_warning,
       test_accounts: [
         {
           id: 1,

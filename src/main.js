@@ -28,7 +28,7 @@ var web3
 if (typeof web3 !== 'undefined') {
   web3 = new Web3(web3.currentProvider)
 } else {
-  web3 = new Web3(Web3.givenProvider || 'ws://34.215.168.223:8546')
+  web3 = new Web3(Web3.givenProvider || 'wss://wallet.brusnika.biz:8546')
 }
 
 /* eslint-disable no-new */

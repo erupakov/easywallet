@@ -4,7 +4,7 @@
   <div class="card-body">
     <h4 class="card-title">{{ account_name }}</h4>
     <p class="card-text">{{ account_address }}</p>
-    <b-button v-on:click="removeAccount" variant="danger">{{ btn_remove_msg }}</b-button>
+    <b-button v-b-modal.modalRemove variant="danger">{{ btn_remove_msg }}</b-button>
     <b-button v-on:click="chooseAccount" variant="primary">{{ btn_choose_msg }}</b-button>
   </div>
 </div>
@@ -27,9 +27,6 @@ export default {
   methods: {
     chooseAccount: function (event) {
       alert('Chosen!')
-    },
-    removeAccount: function (event) {
-      alert('Removed!')
     }
   }
 }
