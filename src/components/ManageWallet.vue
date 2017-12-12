@@ -55,7 +55,8 @@ export default {
       this.updateEthBalance(wallet['accounts'][accountIdx].address)
       var tokens = this.$session.get('erc20_tokens', [])
       for (var i = 0; i < tokens.length; i++) {
-        var tE = new Array(wallet['accounts'][accountIdx])
+        var tE = {}
+        Object.assign(tE, wallet['accounts'][accountIdx])
         tE.index += i + 1
         tE.type = tokens[i].name
         tE.symbol = tokens[i].symbol
@@ -78,9 +79,11 @@ export default {
     updateTokenBalance: function (symbol, address) {
       var contractaddress = ''
       var tokens = this.$session.get('erc20_tokens', [])
+      var tokenIdx = 0
       for (var i = 0; i < tokens.length; i++) {
         if (tokens[i].symbol === symbol) {
           contractaddress = tokens[i].contract
+          tokenIdx = i + 1
         }
       }
 
@@ -91,12 +94,7 @@ export default {
 
       axios.get('https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=' + contractaddress + '&address=' + address + '&tag=latest&apikey=AA34ZUFBTWM45APMWEFZ5XGKZM2B6YWTHH')
         .then(response => {
-          alert(symbol)
-          for (var i = 0; i < tokens.length; i++) {
-            if (tokens[i].symbol === symbol) {
-              this.items[i + 1].balance = response.data.result
-            }
-          }
+          this.items[tokenIdx].balance = response.data.result
         }, response => {
           // error callback
           alert('error retrieving token balance:' + JSON.stringify(response))
