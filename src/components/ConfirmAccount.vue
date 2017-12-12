@@ -5,6 +5,7 @@
         <p>{{ backup_msg }}</p>
         <b-form-textarea rows="4"  v-model="seed_phrase" placeholder="Enter seed phrase"/>
         <div class="my-2 mx-auto">
+          <div v-if="show_spinner" class="d-flex justify-content-center"><p>{{ modal_label }} <span class="fa fa-spinner fa-spin fa-2x fa-fw"></span></p></div>
 	        <b-button variant="danger" v-on:click="goBack" id="btnBack">{{ btn_back_msg }}</b-button>        
 	        <b-button variant="primary" v-on:click="checkSeed" id="btnConfirm">{{ btn_confirm_msg }}</b-button>
         </div>
@@ -17,7 +18,6 @@
 import bip39 from 'bip39'
 import bitcoinjs from 'bitcoinjs-lib'
 import ethUtil from 'ethereumjs-util'
-import loading from 'vue-full-loading'
 
 function calcBip32ExtendedKey (path, bip32RootKey) {
   // Check there's a root key to derive from
@@ -65,16 +65,13 @@ function deriveKey (index, extendedKey) {
 
 export default {
   name: 'ConfirmAccount',
-  components: {
-    loading
-  },
   data () {
     return {
       backup_msg: this.$lang.confirm_account.backup_text,
       btn_confirm_msg: this.$lang.confirm_account.btn_confirm_text,
       btn_back_msg: this.$lang.confirm_account.btn_back_text,
       seed_phrase: '',
-      modal_show: false,
+      show_spinner: false,
       modal_label: this.$lang.confirm_account.generating_account_text
     }
   },
@@ -124,11 +121,12 @@ export default {
           accounts: [
             {
               index: 0,
-              type: 'ethereum',
+              type: 'Ethereum',
               name: '',
               password: '',
               derivePath: derivePath,
-              balance: '0',
+              balance: 0,
+              symbol: 'ETH',
               private: account0.private,
               public: account0.public,
               address: account0.address

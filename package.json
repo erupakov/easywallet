@@ -14,6 +14,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "bip39": "^2.4.0",
     "bitcoinjs-lib": "^3.3.1",
     "bootstrap": "^4.0.0-beta.2",

@@ -20,15 +20,6 @@
 </template>
 
 <script>
-
-function updateEthBalance () {
-  return 0
-}
-
-function updateTokenBalance () {
-  return 0
-}
-
 export default {
   name: 'AccountLayout',
   data () {
@@ -37,19 +28,19 @@ export default {
       acc_name: ''
     }
   },
+  mounted: function () {
+    this.$nextTick(function () {
+      this.onPageLoad()
+    })
+  },
   methods: {
-    updated: function () {
-      this.$nextTick(function () {
-        var wallet = this.$session.get('wallet', [])
-        var accountIdx = this.$session.get('selectedAccountIndex', 0)
-        this.acc_address = wallet['accounts'][accountIdx].address
-        this.acc_name = wallet['accounts'][accountIdx].name
-        this.acc_address = updateTokenBalance()
-        this.acc_name = updateEthBalance()
-      })
+    onPageLoad: function () {
+      var wallet = this.$session.get('wallet', [])
+      var accountIdx = this.$session.get('selectedAccountIndex', 0)
+      this.acc_address = wallet['accounts'][accountIdx].address
+      this.acc_name = wallet['accounts'][accountIdx].name
     },
     copyAddress: function (event) {
-
     },
     logoutWallet: function (event) {
       this.$session.remove('selectedAccountIndex')
