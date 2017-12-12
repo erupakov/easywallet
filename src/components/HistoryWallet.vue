@@ -69,6 +69,10 @@ export default {
     }
   },
   mounted: function () {
+    if (!this.$session.get('authenticated', false)) {
+      this.$router.push('/home')
+      return
+    }
     this.symbol = this.$route.params.symbol
     this.getTxList(this.$route.params.address)
   }

@@ -46,6 +46,7 @@ export default {
       wallet['accounts'][accountIdx].name = this.account_name
       wallet['accounts'][accountIdx].password = ethUtil.bufferToHex(ethUtil.sha3(this.account_password))
       this.$session.set('wallet', wallet)
+      this.$session.set('authenticated', true)
       this.$router.push('/account/manage')
     }
   }

@@ -47,6 +47,10 @@ export default {
   },
   methods: {
     onPageLoad: function () {
+      if (!this.$session.get('authenticated', false)) {
+        this.$router.push('/home')
+        return
+      }
       var wallet = this.$session.get('wallet', [])
       var accountIdx = this.$session.get('selectedAccountIndex', 0)
       var localItems = []

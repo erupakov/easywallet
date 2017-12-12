@@ -9,6 +9,12 @@ export default {
     return {
       msg: ''
     }
+  },
+  mounted: function () {
+    if (!this.$session.get('authenticated', false)) {
+      this.$router.push('/home')
+      // return
+    }
   }
 }
 </script>
