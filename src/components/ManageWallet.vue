@@ -1,5 +1,10 @@
 <template>
-
+<div>
+  <h3>ASSETS</h3>
+  <div>
+  <b-table striped hover :items="items"></b-table>
+  </div>
+</div>
 </template>
 
 <script>
@@ -7,7 +12,17 @@ export default {
   name: 'ManageWallet',
   data () {
     return {
-      msg: ''
+      items: []
+    }
+  },
+  methods: {
+    mounted: function () {
+      this.$nextTick(function () {
+        alert('mounted')
+        var wallet = this.$session.get('wallet', [])
+        var accountIdx = this.$session.get('selectedAccountIndex', 0)
+        this.items = wallet['accounts'][accountIdx]
+      })
     }
   }
 }

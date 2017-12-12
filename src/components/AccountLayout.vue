@@ -1,5 +1,5 @@
 <template>
-  <div>   
+<div>
 <b-navbar toggleable="md" type="light" sticky >
 
   <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
@@ -15,9 +15,7 @@
   </b-navbar-nav>
   </b-collapse>
 </b-navbar>
-  <div class="row">
-    <router-view></router-view>
-  </div>
+<router-view></router-view>
 </div>
 </template>
 
@@ -31,9 +29,8 @@ export default {
     }
   },
   methods: {
-    mounted: function () {
+    updated: function () {
       this.$nextTick(function () {
-        alert('mounted')
         var wallet = this.$session.get('wallet', [])
         var accountIdx = this.$session.get('selectedAccountIndex', 0)
         this.acc_address = wallet['accounts'][accountIdx].address
@@ -44,7 +41,7 @@ export default {
 
     },
     logoutWallet: function (event) {
-      this.$session.clear('selectedAccountIndex')
+      this.$session.remove('selectedAccountIndex')
       this.$router.push('/home/choose')
     }
   }
