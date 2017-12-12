@@ -1,20 +1,23 @@
 <template>
-<div>
-<b-navbar toggleable="md" type="light" sticky="true">
+  <div>   
+<b-navbar toggleable="md" type="light" sticky >
 
   <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-  <b-navbar-brand to="/account"><img class="brand-logo" alt="easyWallet logo" src="../assets/logo.png" /></b-navbar-brand>
+  <b-navbar-brand to="/account/manage"><img class="img-responsive" style="height: 50px;" alt="easyWallet logo" src="../assets/logo.png" /></b-navbar-brand>
+  <b-collapse is-nav id="nav_collapse">
   <b-navbar-nav>
     <b-nav-text><b>{{ acc_name }}</b>&nbsp;{{ acc_address }}</p></b-nav-text>
-    <b-nav-item v-on:click="copyAddress"><span class="fa fa-clone" /></b-nav-item>
+    <b-nav-item v-on:click="copyAddress"><span class="fa fa-clone"></span></b-nav-item>
   </b-navbar-nav>
 
   <b-navbar-nav class="ml-auto">
-    <b-nav-item v-on:click="logoutWallet" right><span class="fa fa-power-off" /></b-nav-item>
+    <b-nav-item v-on:click="logoutWallet" right><span class="fa fa-power-off"></span></b-nav-item>
   </b-navbar-nav>
-
+  </b-collapse>
 </b-navbar>
-<router-view></router-view>
+  <div class="row">
+    <router-view></router-view>
+  </div>
 </div>
 </template>
 
@@ -23,16 +26,26 @@ export default {
   name: 'AccountLayout',
   data () {
     return {
-      acc_address: '0x9289234263489023786478',
-      acc_name: 'Main account'
+      acc_address: '',
+      acc_name: ''
     }
   },
   methods: {
+    mounted: function () {
+      this.$nextTick(function () {
+        alert('mounted')
+        var wallet = this.$session.get('wallet', [])
+        var accountIdx = this.$session.get('selectedAccountIndex', 0)
+        this.acc_address = wallet['accounts'][accountIdx].address
+        this.acc_name = wallet['accounts'][accountIdx].name
+      })
+    },
     copyAddress: function (event) {
 
     },
     logoutWallet: function (event) {
-
+      this.$session.clear('selectedAccountIndex')
+      this.$router.push('/home/choose')
     }
   }
 }

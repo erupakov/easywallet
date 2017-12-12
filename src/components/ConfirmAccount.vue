@@ -1,12 +1,5 @@
 <template>
 <transition name="slide">
-<div>
-  <div>
- <loading
-     :show="modal_show"
-     :label="modal_label">
- </loading>
- </div>
 <div style="width: 100%;" class="d-flex justify-content-center">
     <div class="d-flex flex-column text-center">
         <p>{{ backup_msg }}</p>
@@ -16,7 +9,6 @@
 	        <b-button variant="primary" v-on:click="checkSeed" id="btnConfirm">{{ btn_confirm_msg }}</b-button>
         </div>
     </div>
-</div>
 </div>
 </transition>
 </template>
@@ -106,49 +98,45 @@ export default {
           title: 'Seed phrase correct',
           text: 'Seed phrase correct, opening wallet.'
         })
-        this.modal_show = true
-        this.$nextTick(function () {
-          var seed = null
-          var bip32RootKey = null
-          var network = bitcoinjs.networks.bitcoin
-          // calculate seed
-          seed = bip39.mnemonicToSeed(words, null)
-          // calculate rootKey
-          bip32RootKey = bitcoinjs.HDNode.fromSeedHex(seed, network)
 
-          // clear words
-          this.$session.clear('mnemonicPhrase')
-          words = null
-          var derivePath = 'm/44\'/60\'/0\'/0'
-          var bip32ExtendedKey = calcBip32ExtendedKey(
-            derivePath,
-            bip32RootKey
-          )
-          // TODO: calculate currect account index according BIP-44 directions
-          // on address gaping
-          var account0 = deriveKey(0, bip32ExtendedKey)
-          // create initial wallet structure
-          var wallet = {
-            rootKey: bip32RootKey.toBase58(),
-            extendedKey: bip32ExtendedKey.toBase58(),
-            accounts: [
-              {
-                index: 0,
-                type: 'ethereum',
-                name: '',
-                password: '',
-                derivePath: derivePath,
-                balance: '0',
-                private: account0.private,
-                public: account0.public,
-                address: account0.address
-              }
-            ]
-          }
-          this.$session.set('wallet', wallet)
-          this.$session.set('selectedAccountIndex', 0)
-        })
-        this.modal_show = false
+        var seed = null
+        var bip32RootKey = null
+        var network = bitcoinjs.networks.bitcoin
+        // calculate seed
+        seed = bip39.mnemonicToSeed(words, null)
+        // calculate rootKey
+        bip32RootKey = bitcoinjs.HDNode.fromSeedHex(seed, network)
+
+        // clear words
+        this.$session.clear('mnemonicPhrase')
+        words = null
+        var derivePath = 'm/44\'/60\'/0\'/0'
+        var bip32ExtendedKey = calcBip32ExtendedKey(
+          derivePath,
+          bip32RootKey
+        )
+        // TODO: calculate currect account index according BIP-44 directions
+        // on address gaping
+        var account0 = deriveKey(0, bip32ExtendedKey)
+        // create initial wallet structure
+        var wallet = {
+          extendedKey: bip32ExtendedKey.toBase58(),
+          accounts: [
+            {
+              index: 0,
+              type: 'ethereum',
+              name: '',
+              password: '',
+              derivePath: derivePath,
+              balance: '0',
+              private: account0.private,
+              public: account0.public,
+              address: account0.address
+            }
+          ]
+        }
+        this.$session.set('wallet', wallet)
+        this.$session.set('selectedAccountIndex', 0)
         this.$router.push('/home/name')
       }
     }
