@@ -59,14 +59,14 @@ export default {
       create_disabled: false
     }
   },
+  mounted: function () {
+    var wallet = this.$session.get('wallet', [])
+    this.test_accounts = wallet['accounts']
+    if (wallet['accounts'].length === 0) {
+      this.create_disabled = true
+    }
+  },
   methods: {
-    mounted: function () {
-      var wallet = this.$session.get('wallet', [])
-      this.test_accounts = wallet
-      if (wallet.length === 0) {
-        this.create_disabled = true
-      }
-    },
     accounts: function () {
       return this.test_accounts
     },

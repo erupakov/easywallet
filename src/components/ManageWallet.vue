@@ -14,7 +14,7 @@
       </thead>
       <tbody>
       <tr v-for="item in items" :key="item.index">
-        <td><img class="img-responsive" style="height: 26px;" :src="logos[item.symbol]" :alt="item.name"></td>
+        <td><img class="img-responsive" style="height: 62px;" :src="logos[item.symbol]" :alt="item.type"></td>
         <td>{{ item.type }}</td>
         <td>{{ item.symbol }}</td>
         <td>{{ item.balance }}</td>
@@ -51,6 +51,7 @@ export default {
       var accountIdx = this.$session.get('selectedAccountIndex', 0)
       var localItems = []
       localItems.push(wallet['accounts'][accountIdx])
+      this.logos['ETH'] = 'static/img/ethereum.png'
       this.updateEthBalance(wallet['accounts'][accountIdx].address)
       var tokens = this.$session.get('erc20_tokens', [])
       for (var i = 0; i < tokens.length; i++) {

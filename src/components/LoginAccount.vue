@@ -92,7 +92,7 @@ async function restoreWallet (words, obj) {
         password: '',
         derivePath: derivePath,
         balance: 0,
-        symmol: 'ETH',
+        symbol: 'ETH',
         private: account0.private,
         public: account0.public,
         address: account0.address
