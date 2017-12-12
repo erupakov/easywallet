@@ -1,35 +1,61 @@
 <template>
-
+<div style="width: 100%;" class="d-flex justify-content-center">
+    <div class="d-flex flex-column text-center">
+        <p><b>{{ account_name }}</b>:{{ account_address }}</p>
+        <label for="account_password">{{ enter_pwd_msg }}</label>
+        <b-form-input v-model="account_password" placeholder="Enter password" name="account_password" type="password" required/>
+        <div class="my-2 mx-auto">
+	        <b-button style="width: 240px;" variant="primary" v-on:click="loginAccount" id="btnLogin">{{ btn_login_msg }}</b-button>
+        </div>
+        <b-link to="/home/choose" >{{ another_account_msg }}</b-link>        
+    </div>
+</div>
+</transition>
 </template>
 
 <script>
+import ethUtil from 'ethereumjs-util'
+
 export default {
   name: 'PasswordAccount',
   data () {
     return {
-      msg: ''
+      account_name: '',
+      account_address: '',
+      another_account_msg: 'Use another account',
+      btn_login_msg: 'Login',
+      enter_pwd_msg: 'Enter your password',
+      account_password: ''
+    }
+  },
+  mounted: function () {
+    this.$session.set('authenticated', false)
+    this.$nextTick(function () {
+      this.onPageLoad()
+    })
+  },
+  methods: {
+    onPageLoad: function () {
+      var wallet = this.$session.get('wallet', [])
+      var accountIdx = this.$session.get('selectedAccountIndex', 0)
+      this.account_name = wallet['accounts'][accountIdx].name
+      this.account_address = wallet['accounts'][accountIdx].address
+    },
+    loginAccount: function () {
+      var wallet = this.$session.get('wallet', [])
+      var accountIdx = this.$session.get('selectedAccountIndex', 0)
+      var hash = ethUtil.bufferToHex(ethUtil.sha3(this.account_password))
+      if (hash !== wallet['accounts'][accountIdx].password) {
+        this.$notify({
+          group: 'flash',
+          title: 'Login incorrect',
+          text: 'The password you entered is incorrect. Please try again'
+        })
+      } else {
+        this.$session.set('authenticated', true)
+        this.$router.push('/account/manage')
+      }
     }
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-</style>

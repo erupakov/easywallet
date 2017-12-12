@@ -9,7 +9,7 @@
 	</div>
 	<div class="row">
 	<div class="col-xs-6 col-sm-5 col-md-4">
-    <b-button variant="primary" block :disabled="create_disaled" v-on:click="newAccount" class="my-2" id="btnCreateAccount">{{ create_account_msg }}</b-button>
+    <b-button variant="primary" block :disabled="create_disabled" v-on:click="newAccount" class="my-2" id="btnCreateAccount">{{ create_account_msg }}</b-button>
 	</div>
 	</div>
 <div>

@@ -79,7 +79,7 @@ export default new Router({
           component: SendWallet
         },
         {
-          path: 'history',
+          path: 'history/:symbol/:address',
           component: HistoryWallet
         }
       ]

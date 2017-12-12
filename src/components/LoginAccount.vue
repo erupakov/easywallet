@@ -101,6 +101,7 @@ async function restoreWallet (words, obj) {
   }
   obj.$session.set('wallet', wallet)
   obj.$session.set('selectedAccountIndex', 0)
+  obj.$session.set('authenticated', true)
   return obj
 }
 

@@ -4,8 +4,8 @@
   <div class="card-body">
     <h4 class="card-title">{{ account_name }}</h4>
     <p class="card-text">{{ account_address }}</p>
-    <b-button v-b-modal.modalRemove variant="danger">{{ btn_remove_msg }}</b-button>
-    <b-button v-on:click="chooseAccount" variant="primary">{{ btn_choose_msg }}</b-button>
+    <b-button v-b-modal.modalRemove variant="danger" :data-id="account_idx">{{ btn_remove_msg }}</b-button>
+    <b-button v-on:click="chooseAccount(account_idx)" variant="primary" :data-id="account_idx">{{ btn_choose_msg }}</b-button>
   </div>
 </div>
 </template>
@@ -20,13 +20,19 @@ export default {
       btn_choose_msg: this.$lang.choose_account.btn_choose_text,
       account_name: this.accountName,
       account_address: this.accountAddress,
-      image_src: '',
-      image_alt: ''
+      account_idx: this.accountId
     }
   },
   methods: {
-    chooseAccount: function (event) {
-      alert('Chosen!')
+    chooseAccount: function (accountIdx, event) {
+      var wallet = this.$session.get('wallet', [])
+      for (var i = 0; i < wallet['accounts'].length; i++) {
+        if (wallet['accounts'][i].index === accountIdx) {
+          this.$session.set('selectedAccountAddress', i)
+          this.$session.set('authenticated', false)
+          this.$router.push('/home/password')
+        }
+      }
     }
   }
 }

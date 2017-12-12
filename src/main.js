@@ -10,6 +10,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Lang from 'vuejs-localization'
 import Notifications from 'vue-notification'
 import VueSessionStorage from 'vue-sessionstorage'
+import VueClipboard from 'vue-clipboard2'
 
 Lang.requireAll(require.context('../lang', true, /\.js$/))
 
@@ -17,6 +18,7 @@ Vue.use(BootstrapVue)
 Vue.use(Lang)
 Vue.use(Notifications)
 Vue.use(VueSessionStorage)
+Vue.use(VueClipboard)
 
 Vue.config.productionTip = false
 

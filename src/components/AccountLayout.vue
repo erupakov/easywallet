@@ -41,16 +41,18 @@ export default {
       this.acc_name = wallet['accounts'][accountIdx].name
     },
     copyAddress: function (event) {
+      this.$copyText(this.acc_address)
+      this.$notify({
+        group: 'flash',
+        title: 'Address copied',
+        text: 'We have successfully copied address to clipboard'
+      })
     },
     logoutWallet: function (event) {
-      this.$session.remove('selectedAccountIndex')
-      this.$router.push('/home/choose')
+      this.$session.set('authenticated', false)
+      this.$router.push('/home/password')
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>
