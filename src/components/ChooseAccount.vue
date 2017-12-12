@@ -88,11 +88,12 @@ export default {
       // create initial wallet structure
       var acct = {
         index: nextIdx,
-        type: 'ethereum',
+        type: 'Ethereum',
         name: '',
         password: '',
         derivePath: derivePath,
         balance: '0',
+        symbol: 'ETH',
         private: newaccount.private,
         public: newaccount.public,
         address: newaccount.address

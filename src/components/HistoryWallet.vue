@@ -42,14 +42,14 @@ export default {
   },
   methods: {
     getTxList: function (address) {
-      axios.get('http://api.etherscan.io/api?module=account&action=txlist&page=1&offset=0&address=' + address + '&startblock=0&endblock=99999999&sort=asc&apikey=AA34ZUFBTWM45APMWEFZ5XGKZM2B6YWTHH')
+      axios.get('https://api.etherscan.io/api?module=account&action=txlist&page=1&offset=0&address=' + address + '&startblock=0&endblock=99999999&sort=asc&apikey=AA34ZUFBTWM45APMWEFZ5XGKZM2B6YWTHH')
         .then(response => {
           // get body data
           var txlist = response.data.result
           for (var i = txlist.length - 1; i >= 0; i--) {
             var txe = []
             txe['amount'] = parseFloat(txlist[i].value) / 1e18
-            if (this.$route.params.address.toLowerCase() === txlist[i].from.toLowerCase) {
+            if (this.$route.params.address.toLowerCase() === txlist[i].from.toLowerCase()) {
               txe['address'] = txlist[i].to
               txe['type'] = 'Spend'
             } else {

@@ -1,6 +1,6 @@
 <template>
 <div>
-<b-navbar toggleable="md" type="light" sticky >
+<b-navbar toggleable="md" type="light" fixed>
 
   <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
   <b-navbar-brand to="/account/manage"><img class="img-responsive" style="height: 50px;" alt="easyWallet logo" src="../assets/logo.png" /></b-navbar-brand>
