@@ -42,9 +42,7 @@ export default {
     }
   },
   mounted: function () {
-    this.$nextTick(function () {
-      this.onPageLoad()
-    })
+    this.onPageLoad()
   },
   methods: {
     onPageLoad: function () {
