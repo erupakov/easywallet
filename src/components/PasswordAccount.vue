@@ -31,9 +31,7 @@ export default {
   },
   mounted: function () {
     this.$session.set('authenticated', false)
-    this.$nextTick(function () {
-      this.onPageLoad()
-    })
+    this.onPageLoad()
   },
   methods: {
     onPageLoad: function () {

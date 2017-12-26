@@ -29,14 +29,15 @@ export default {
     }
   },
   mounted: function () {
-    this.$nextTick(function () {
       this.onPageLoad()
-    })
   },
   methods: {
     onPageLoad: function () {
       var wallet = this.$ls.get('wallet', [])
-      var accountIdx = this.$session.get('selectedAccountIndex', 0)
+      var accountIdx = 0
+      if (this.$session.exists('selectedAccountIndex')) {
+        accountIdx = this.$session.get('selectedAccountIndex')
+      }
       this.acc_address = wallet['accounts'][accountIdx].address
       this.acc_name = wallet['accounts'][accountIdx].name
     },
