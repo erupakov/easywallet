@@ -19,7 +19,7 @@
     </table>
   </div>
   <!-- Modal Component -->
-  <b-modal id="modalICO" title="Join our ICO">
+  <b-modal id="modalICO" title="Join our ICO" ok-only="true" button-size="large">
     <p class="my-4">Join our ICO by sending funds on our bank account:</p>
 	<p><strong>Bank of New York</strong></p>
 	<p>SWIFT code: BNY</p>
@@ -51,7 +51,10 @@ export default {
         return
       }
       var wallet = this.$ls.get('wallet')
-      var accountIdx = this.$session.get('selectedAccountIndex', 0)
+      var accountIdx = 0
+      if (this.$session.exists('selectedAccountIndex')) {
+        accountIdx = this.$session.get('selectedAccountIndex')
+      }
       var localItems = []
       localItems.push(wallet['accounts'][accountIdx])
       this.logos['ETH'] = 'static/img/ethereum.png'

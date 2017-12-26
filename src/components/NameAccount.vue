@@ -42,7 +42,10 @@ export default {
         return
       }
       var wallet = this.$ls.get('wallet')
-      var accountIdx = this.$session.get('selectedAccountIndex', 0)
+      var accountIdx = 0
+      if (this.$session.exists('selectedAccountIndex')) {
+        accountIdx = this.$session.get('selectedAccountIndex')
+      }
       wallet['accounts'][accountIdx].name = this.account_name
       wallet['accounts'][accountIdx].password = ethUtil.bufferToHex(ethUtil.sha3(this.account_password))
       this.$ls.set('wallet', wallet)

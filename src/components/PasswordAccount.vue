@@ -31,18 +31,26 @@ export default {
   },
   mounted: function () {
     this.$session.set('authenticated', false)
-    this.onPageLoad()
+    this.$nextTick(function () {
+      this.onPageLoad()
+    })
   },
   methods: {
     onPageLoad: function () {
       var wallet = this.$ls.get('wallet')
-      var accountIdx = this.$session.get('selectedAccountIndex', 0)
+      var accountIdx = 0
+      if (this.$session.exists('selectedAccountIndex')) {
+        accountIdx = this.$session.get('selectedAccountIndex')
+      }
       this.account_name = wallet['accounts'][accountIdx].name
       this.account_address = wallet['accounts'][accountIdx].address
     },
     loginAccount: function () {
       var wallet = this.$ls.get('wallet')
-      var accountIdx = this.$session.get('selectedAccountIndex', 0)
+      var accountIdx = 0
+      if (this.$session.exists('selectedAccountIndex')) {
+        accountIdx = this.$session.get('selectedAccountIndex')
+      }
       var hash = ethUtil.bufferToHex(ethUtil.sha3(this.account_password))
       if (hash !== wallet['accounts'][accountIdx].password) {
         this.$notify({

@@ -12,7 +12,7 @@
     </div>
 </div>
 </transition>
-</template>home
+</template>
 
 <script>
 import bip39 from 'bip39'
@@ -50,7 +50,3 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>
