@@ -11,6 +11,11 @@ import Lang from 'vuejs-localization'
 import Notifications from 'vue-notification'
 import VueSessionStorage from 'vue-sessionstorage'
 import VueClipboard from 'vue-clipboard2'
+import VueLocalStorage from 'vue-ls'
+
+var options = {
+  namespace: 'easyWallet__'
+}
 
 Lang.requireAll(require.context('../lang', true, /\.js$/))
 
@@ -19,6 +24,7 @@ Vue.use(Lang)
 Vue.use(Notifications)
 Vue.use(VueSessionStorage)
 Vue.use(VueClipboard)
+Vue.use(VueLocalStorage, options)
 
 Vue.config.productionTip = false
 

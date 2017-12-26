@@ -36,13 +36,13 @@ export default {
   },
   methods: {
     onPageLoad: function () {
-      var wallet = this.$session.get('wallet', [])
+      var wallet = this.$ls.get('wallet', [])
       var accountIdx = this.$session.get('selectedAccountIndex', 0)
       this.account_name = wallet['accounts'][accountIdx].name
       this.account_address = wallet['accounts'][accountIdx].address
     },
     loginAccount: function () {
-      var wallet = this.$session.get('wallet', [])
+      var wallet = this.$ls.get('wallet', [])
       var accountIdx = this.$session.get('selectedAccountIndex', 0)
       var hash = ethUtil.bufferToHex(ethUtil.sha3(this.account_password))
       if (hash !== wallet['accounts'][accountIdx].password) {

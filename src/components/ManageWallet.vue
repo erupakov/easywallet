@@ -3,15 +3,6 @@
   <h3>ASSETS</h3>
   <div>
     <table class="table table-striped">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">Logo</th>
-          <th scope="col">Name</th>
-          <th scope="col">Symbol</th>
-          <th scope="col">Balance</th>
-          <th scope="col">Actions</th>          
-        </tr>
-      </thead>
       <tbody>
       <tr v-for="(item,index) in items" :key="item.index">
         <td><img class="img-responsive" style="height: 62px;" :src="logos[item.symbol]" :alt="item.type"></td>
@@ -19,14 +10,24 @@
         <td>{{ item.symbol }}</td>
         <td>{{ item.balance }}</td>
         <td>
-          <b-button variant="success" name="btnHistory" v-on:click="viewHistory(index)">History</b-button>
-          <b-button variant="primary" name="btnSend" v-on:click="sendTo(index)">Send</b-button>
+          <b-button variant="success" name="btnHistory" v-if="item.type==='Ethereum'" v-on:click="viewHistory(index)">History</b-button>
+          <b-button variant="primary" name="btnSend" v-if="item.type==='Ethereum'" v-on:click="sendTo(index)">Send</b-button>
+          <b-button variant="primary" name="btnJoinICO" v-b-modal.modalICO v-if="item.type!=='Ethereum'">Join ICO!</b-button>
         </td>
       </tr>
       </tbody>
     </table>
   </div>
+  <!-- Modal Component -->
+  <b-modal id="modalICO" title="Join our ICO">
+    <p class="my-4">Join our ICO by sending funds on our bank account:</p>
+	<p><strong>Bank of New York</strong></p>
+	<p>SWIFT code: BNY</p>
+	<p>Beneficinary: ben</p>
+	<p>Account: 432423532523</p>
+  </b-modal>
 </div>
+
 </template>
 
 <script>
@@ -51,7 +52,7 @@ export default {
         this.$router.push('/home')
         return
       }
-      var wallet = this.$session.get('wallet', [])
+      var wallet = this.$ls.get('wallet')
       var accountIdx = this.$session.get('selectedAccountIndex', 0)
       var localItems = []
       localItems.push(wallet['accounts'][accountIdx])

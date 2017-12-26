@@ -36,6 +36,7 @@ export default {
       this.seed_phrase = words
       this.$notify({
         group: 'flash',
+        type: 'success',
         title: 'Account created',
         text: 'Your new account was successfully created.'
       })

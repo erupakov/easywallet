@@ -60,7 +60,7 @@ export default {
     }
   },
   mounted: function () {
-    var wallet = this.$session.get('wallet', [])
+    var wallet = this.$ls.get('wallet')
     this.test_accounts = wallet['accounts']
     if (wallet['accounts'].length === 0) {
       this.create_disabled = true
@@ -73,7 +73,7 @@ export default {
     newAccount: function (event) {
       // TODO: calculate currect account index according BIP-44 directions
       // on address gaping
-      var wallet = this.$session.get('wallet', [])
+      var wallet = this.$ls.get('wallet')
       var nextIdx = 0
       for (var i = 0; i < wallet['accounts'].length; i++) {
         if (wallet['accounts'][i].index > nextIdx) {
@@ -99,7 +99,7 @@ export default {
         address: newaccount.address
       }
       wallet['accounts'].push(acct)
-      this.$session.set('wallet', wallet)
+      this.$ls.set('wallet', wallet)
       this.$session.set('selectedAccountIndex', wallet['accounts'].length - 1)
       this.$router.push('/home/name')
     }

@@ -19,6 +19,12 @@ export default {
       create_account_msg: this.$lang.welcome.create_account_text,
       click_msg: this.$lang.welcome.click_text
     }
+  },
+  mounted: function () {
+    var wallet = this.$ls.get('wallet', false)
+    if (wallet !== false) {
+      this.$router.push('/home/choose')
+    }
   }
 }
 </script>

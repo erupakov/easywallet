@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     chooseAccount: function (accountIdx, event) {
-      var wallet = this.$session.get('wallet', [])
+      var wallet = this.$ls.get('wallet', [])
       for (var i = 0; i < wallet['accounts'].length; i++) {
         if (wallet['accounts'][i].index === accountIdx) {
           this.$session.set('selectedAccountAddress', i)

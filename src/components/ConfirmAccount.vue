@@ -85,6 +85,7 @@ export default {
         // mnemonic invalid
         this.$notify({
           group: 'flash',
+          type: 'error',
           title: 'Incorrect seed phrase',
           text: 'Seed phrase validation failed, please try again.'
         })
@@ -92,6 +93,7 @@ export default {
         // correct
         this.$notify({
           group: 'flash',
+          type: 'success',
           title: 'Seed phrase correct',
           text: 'Seed phrase correct, opening wallet.'
         })
@@ -133,7 +135,7 @@ export default {
             }
           ]
         }
-        this.$session.set('wallet', wallet)
+        this.$ls.set('wallet', wallet)
         this.$session.set('selectedAccountIndex', 0)
         this.$router.push('/home/name')
       }

@@ -41,11 +41,11 @@ export default {
         })
         return
       }
-      var wallet = this.$session.get('wallet', [])
+      var wallet = this.$ls.get('wallet')
       var accountIdx = this.$session.get('selectedAccountIndex', 0)
       wallet['accounts'][accountIdx].name = this.account_name
       wallet['accounts'][accountIdx].password = ethUtil.bufferToHex(ethUtil.sha3(this.account_password))
-      this.$session.set('wallet', wallet)
+      this.$ls.set('wallet', wallet)
       this.$session.set('authenticated', true)
       this.$router.push('/account/manage')
     }

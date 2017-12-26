@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     onPageLoad: function () {
-      var wallet = this.$session.get('wallet', [])
+      var wallet = this.$ls.get('wallet', [])
       var accountIdx = this.$session.get('selectedAccountIndex', 0)
       this.acc_address = wallet['accounts'][accountIdx].address
       this.acc_name = wallet['accounts'][accountIdx].name

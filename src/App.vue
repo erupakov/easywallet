@@ -8,9 +8,9 @@
 <script>
 const erc20Tokens = [
   {
-    name: 'Monaco',
-    symbol: 'MCO',
-    contract: '0xb63b606ac810a52cca15e44bb630fd42d8d1d83d',
+    name: 'Nexpara',
+    symbol: 'NEX',
+    contract: '0x143122137e723f209da6ed9fabe723d3f88b99c0',
     logo: 'static/img/monaco.png'
   },
   {
