@@ -21,7 +21,7 @@
 <script>
 import ethUtil from 'ethereumjs-util'
 
-const g_secret='6Le6ez4UAAAAAGEaFQmlgbdeamm0J3Jsls2GpxDP';
+const gSecret = '6Le6ez4UAAAAAGEaFQmlgbdeamm0J3Jsls2GpxDP'
 
 export default {
   name: 'NameAccount',
@@ -43,7 +43,7 @@ export default {
           group: 'flash',
           type: 'error',
           title: 'Error',
-          text: 'Name and password should not be empty'
+          text: 'Name and password should not be empty' + gSecret
         })
         return
       }

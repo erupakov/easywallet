@@ -29,7 +29,7 @@ export default {
     }
   },
   mounted: function () {
-      this.onPageLoad()
+    this.onPageLoad()
   },
   methods: {
     onPageLoad: function () {
