@@ -6,7 +6,7 @@
   <b-navbar-brand to="/account/manage"><img class="img-responsive" style="height: 50px;" alt="easyWallet logo" src="../assets/logo.png" /></b-navbar-brand>
   <b-collapse is-nav id="nav_collapse">
   <b-navbar-nav>
-    <b-nav-text><b>{{ acc_name }}</b>&nbsp;{{ acc_address }}</p></b-nav-text>
+    <b-nav-text><b>{{ acc_name }}</b>&nbsp;{{ acc_address }}</b-nav-text>
     <b-nav-item v-on:click="copyAddress"><span class="fa fa-clone"></span></b-nav-item>
   </b-navbar-nav>
 

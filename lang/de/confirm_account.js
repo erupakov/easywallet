@@ -6,5 +6,7 @@ module.exports = {
   enter_pwd_text: 'Enter a strong password',
   enter_name_tip_text: 'Eg. "My main account"',
   enter_name_text: 'Enter name for your account',
-  generating_account_text: 'Generating account...'
+  generating_account_text: 'Generating account...',
+  confirm_pwd_text: 'Confirm your password',
+  agree_with_terms_text: 'I agree to the terms of service'
 }

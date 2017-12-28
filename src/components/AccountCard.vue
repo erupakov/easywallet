@@ -4,7 +4,7 @@
   <div class="card-body">
     <h4 class="card-title">{{ account_name }}</h4>
     <p class="card-text">{{ account_address }}</p>
-    <b-button v-b-modal.modalRemove variant="danger" :data-id="account_idx">{{ btn_remove_msg }}</b-button>
+    <b-button @click="showRemoveModal(account_idx)" variant="danger" :data-id="account_idx">{{ btn_remove_msg }}</b-button>
     <b-button v-on:click="chooseAccount(account_idx)" variant="primary" :data-id="account_idx">{{ btn_choose_msg }}</b-button>
   </div>
 </div>
@@ -31,6 +31,15 @@ export default {
           this.$session.set('selectedAccountAddress', i)
           this.$session.set('authenticated', false)
           this.$router.push('/home/password')
+        }
+      }
+    },
+    showRemoveModal: function (accountIdx, event) {
+      var wallet = this.$ls.get('wallet', [])
+      for (var i = 0; i < wallet['accounts'].length; i++) {
+        if (wallet['accounts'][i].index === accountIdx) {
+          this.$refs.removeModalRef.removemodal_account_name = wallet['accounts'][i].name
+          this.$refs.removeModalRef.removemodal_account_address = wallet['accounts'][i].address
         }
       }
     }

@@ -14,11 +14,11 @@
 	</div>
 <div>
   <!-- Modal Component -->
-  <b-modal id="modalRemove" :title="remove_text_title">
+  <b-modal ref="removeModalRef" id="modalRemove" :title="remove_text_title">
     <p class="my-4">{{ remove_text_intro }}</p>
 	<div class="alert alert-danger">{{ remove_text_warning }}</div>
-	<p><strong>Main account</strong></p>
-	<p>0x342ba7a5d6c67f7e6893</p>
+	<p><strong>{{ removemodal_account_name }}</strong></p>
+	<p>{{ removemodal_account_address }}</p>
   </b-modal>
 </div>
 </div>
@@ -73,6 +73,7 @@ export default {
     newAccount: function (event) {
       // TODO: calculate currect account index according BIP-44 directions
       // on address gaping
+      this.$router.push('/home/name')
       var wallet = this.$ls.get('wallet')
       var nextIdx = 0
       for (var i = 0; i < wallet['accounts'].length; i++) {
