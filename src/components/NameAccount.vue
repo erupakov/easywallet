@@ -5,7 +5,7 @@
         <label for="account_name">{{ enter_name_msg }}
           <small>{{ enter_name_tip_msg }}</small>
         </label>
-        <b-form-input v-model="account_name" placeholder="Enter account name" name="account_name" required/>
+        <b-form-input v-model="account_name" placeholder="Enter your name and surname" name="account_name" required/>
         <label for="account_password">{{ enter_pwd_msg }}</label>
         <b-form-input v-model="account_password" placeholder="Enter password" name="account_password" type="password" required/>
         <label for="account_password_confirmation">{{ confirm_pwd_msg }}</label>
@@ -39,6 +39,13 @@
 import ethUtil from 'ethereumjs-util'
 import axios from 'axios'
 import VueRecaptcha from 'vue-recaptcha'
+import MailGun  from 'mailgun-es6'
+
+const mailGun = new MailGun({
+  privateApi: 'key-3cf53a58eb9d5526635ad35d1825717e',
+  publicApi: 'pubkey-66ee0719481475def7ea9bf0ece45e1b',
+  domainName: 'sandboxe67e59d279ac4b35a1c69c6a87c21969.mailgun.org'
+});
 
 const gSecret = '6Le6ez4UAAAAAGEaFQmlgbdeamm0J3Jsls2GpxDP'
 
@@ -103,6 +110,28 @@ export default {
       })
         .then(response => {
           if (response.data.success) { // success, proceed with wallet
+            mailGun.sendEmail({
+              to: ['eugene.rupakov@gmail.com'],
+              from: 'support@mg.brusnika.biz',
+              subject: 'New account created',
+              text: 'Hi! New easyWallet account was successfully created: ' + this.account_name
+            },'mg.brusnika.biz').then(response => {
+              this.$notify({
+                group: 'flash',
+                type: 'success',
+                title: 'Mail sent',
+                text: 'Email was sent successfully: ' + response
+              })
+              console.log(JSON.stringify(response.data))
+            }).catch(error => {
+              this.$notify({
+                group: 'flash',
+                type: 'error',
+                title: 'Error',
+                text: 'Error sending email: ' + error
+              })
+              console.log(JSON.stringify(error))
+            })
             var wallet = this.$ls.get('wallet')
             var accountIdx = 0
             if (this.$session.exists('selectedAccountIndex')) {
@@ -112,7 +141,7 @@ export default {
             wallet['accounts'][accountIdx].password = ethUtil.bufferToHex(ethUtil.sha3(this.account_password))
             this.$ls.set('wallet', wallet)
             this.$session.set('authenticated', true)
-            this.$router.push('/account/manage')
+            this.$router.push('/home/create')
           } else {
             this.$notify({
               group: 'flash',
