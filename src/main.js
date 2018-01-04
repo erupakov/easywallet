@@ -12,7 +12,6 @@ import Notifications from 'vue-notification'
 import VueSessionStorage from 'vue-sessionstorage'
 import VueClipboard from 'vue-clipboard2'
 import VueLocalStorage from 'vue-ls'
-import VueRecaptcha from 'vue-grecaptcha'
 
 var options = {
   namespace: 'easyWallet__'
@@ -26,9 +25,6 @@ Vue.use(Notifications)
 Vue.use(VueSessionStorage)
 Vue.use(VueClipboard)
 Vue.use(VueLocalStorage, options)
-Vue.use(VueRecaptcha, {
-  sitekey: '6Le6ez4UAAAAAGUDVxtXhzdFuvCEwswpevK03Yd4'
-})
 
 Vue.config.productionTip = false
 

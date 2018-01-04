@@ -39,13 +39,6 @@
 import ethUtil from 'ethereumjs-util'
 import axios from 'axios'
 import VueRecaptcha from 'vue-recaptcha'
-import MailGun  from 'mailgun-es6'
-
-const mailGun = new MailGun({
-  privateApi: 'key-3cf53a58eb9d5526635ad35d1825717e',
-  publicApi: 'pubkey-66ee0719481475def7ea9bf0ece45e1b',
-  domainName: 'sandboxe67e59d279ac4b35a1c69c6a87c21969.mailgun.org'
-});
 
 const gSecret = '6Le6ez4UAAAAAGEaFQmlgbdeamm0J3Jsls2GpxDP'
 
@@ -70,10 +63,9 @@ export default {
   },
   methods: {
     onVerify: function (response) {
-      console.log('Verify: ' + response)
+      this.captchaResponse = response
     },
     onExpired: function () {
-      console.log('Expired')
     },
     setName: function (event) {
       if (this.account_name === '' || this.account_password === '') {
@@ -104,23 +96,19 @@ export default {
         })
         return
       }
-      axios.post('https://www.google.com/recaptcha/api/siteverify', {
-        secret: '6Le6ez4UAAAAAGEaFQmlgbdeamm0J3Jsls2GpxDP',
+      axios.post('https://wallet.brusnika.biz/check_captcha.php', {
         response: this.captchaResponse
       })
         .then(response => {
           if (response.data.success) { // success, proceed with wallet
-            mailGun.sendEmail({
-              to: ['eugene.rupakov@gmail.com'],
-              from: 'support@mg.brusnika.biz',
-              subject: 'New account created',
-              text: 'Hi! New easyWallet account was successfully created: ' + this.account_name
-            },'mg.brusnika.biz').then(response => {
+            axios.post('https://wallet.brusnika.biz/send_notice.php', {
+              name: this.account_name
+            }).then(response => {
               this.$notify({
                 group: 'flash',
                 type: 'success',
                 title: 'Mail sent',
-                text: 'Email was sent successfully: ' + response
+                text: 'Email was sent successfully.'
               })
               console.log(JSON.stringify(response.data))
             }).catch(error => {
@@ -132,17 +120,33 @@ export default {
               })
               console.log(JSON.stringify(error))
             })
-            var wallet = this.$ls.get('wallet')
+            // create wallet
+            var wallet = this.$ls.get('wallet', { accounts: [] })
+
             var accountIdx = 0
-            if (this.$session.exists('selectedAccountIndex')) {
-              accountIdx = this.$session.get('selectedAccountIndex')
+            if (wallet['accounts'].length > 0) {
+              accountIdx = wallet['accounts'].length
             }
-            wallet['accounts'][accountIdx].name = this.account_name
-            wallet['accounts'][accountIdx].password = ethUtil.bufferToHex(ethUtil.sha3(this.account_password))
+            this.$session.set('selectedAccountIndex', accountIdx)
+
+            var acct = {
+              index: 0,
+              type: 'Ethereum',
+              name: this.account_name,
+              password: ethUtil.bufferToHex(ethUtil.sha3(this.account_password)),
+              derivePath: '',
+              extendedKey: '',
+              balance: 0,
+              symbol: 'ETH',
+              private: '',
+              public: '',
+              address: ''
+            }
+            wallet['accounts'].push(acct)
             this.$ls.set('wallet', wallet)
             this.$session.set('authenticated', true)
             this.$router.push('/home/create')
-          } else {
+          } else { // response data unsuccess
             this.$notify({
               group: 'flash',
               type: 'error',
@@ -151,14 +155,6 @@ export default {
             })
             console.log(JSON.stringify(response.data))
           }
-        }).catch(error => {
-          this.$notify({
-            group: 'flash',
-            type: 'error',
-            title: 'Error',
-            text: 'Error checking ReCAPTCHA test results, please try again in a few minutes'
-          })
-          console.log(JSON.stringify(error.data))
         })
     }
   }

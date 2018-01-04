@@ -21,8 +21,7 @@ export default {
     }
   },
   mounted: function () {
-    var wallet = this.$ls.get('wallet', false)
-    if (wallet !== false) {
+    if (this.$ls.get('wallet', false) !== false) {
       this.$router.push('/home/choose')
     }
   }

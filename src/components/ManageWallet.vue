@@ -4,7 +4,7 @@
   <div>
     <table class="table table-striped">
       <tbody>
-      <tr v-for="(item,index) in items" :key="item.index">
+      <tr v-for="(item) in items" :key="item.address">
         <td><img class="img-responsive" style="height: 62px;" :src="logos[item.symbol]" :alt="item.type"></td>
         <td>{{ item.type }}</td>
         <td>{{ item.symbol }}</td>
@@ -27,16 +27,16 @@
 	<p>Account: 432423532523</p>
   </b-modal>
   <!-- Send funds modal-->
-  <b-modal id="modalSend" title="Send Ethers" button-size="large">
+  <b-modal id="modalSend" title="Send Ethers"  ok-only="true" button-size="large">
 	<p><strong>Please fill in fields below to send funds:</strong></p>
-    <b-form @submit="onSubmit" @reset="onReset">
+    <b-form @submit="sendTo">
       <b-form-group id="igAddress"
                     label="Send funds to address"
                     label-for="ethSendTo"
                     description="Please enter destination Ethereum address (40 hex digits starting from 0x)">
         <b-form-input id="ethSendTo"
                       type="text"
-                      v-model="form.to"
+                      v-model="sendform_to"
                       required
                       placeholder="Enter destination address">
         </b-form-input>
@@ -46,24 +46,50 @@
                     label-for="ethSendAmount">
         <b-form-input id="ethSendAmount"
                       type="number"
-                      v-model="form.amount"
+                      v-model="sendform_amount"
                       required
                       placeholder="0.1">
         </b-form-input>
       </b-form-group>
       <b-form-group id="exampleGroup4">
-        <b-form-checkbox-group v-model="form.gasDefault" id="ethGasDefault">
-          <b-form-checkbox value="yes">Use default (21 Gwei)</b-form-checkbox>
+        <b-form-checkbox-group id="ethGasDefault">
+          <b-form-checkbox v-model="sendform_gasDefault" value="yes">Use default gas (21 Gwei)</b-form-checkbox>
           <b-form-input id="ethGasAmount" 
+            :disabled="sendform_gasDefault==false"
             label="Custom gas amount"
-            v-model="form.customGas"
+            type="number"
+            v-model="sendform_customGas"
             placeholder="21">
           </b-form-input>
         </b-form-checkbox-group>
       </b-form-group>
       <b-button type="submit" variant="primary">Send</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
     </b-form>
+  </b-modal>
+  <!-- History Modal -->
+  <b-modal id="modalHistory" large title="Account transactions" ok-only="true" button-size="large">
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Type</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Recipient/Sender</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr v-for="item in history_items" :key="item.date">
+        <td>{{ item.date }}</td>
+        <td>{{ item.type }}</td>
+        <td>{{ item.amount }}</td>
+        <td>{{ item.address }}</td>
+        <td>
+          <b-button variant="primary" name="btnSend" :href="item.link" target="_blank">View on Etherscan</b-button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </b-modal>
 </div>
 
@@ -101,7 +127,13 @@ export default {
   data () {
     return {
       items: [],
-      logos: []
+      logos: [],
+      sendform_to: '',
+      sendform_amount: 0.1,
+      sendform_customGas: 21,
+      sendform_gasDefault: true,
+      history_items: [],
+      history_symbol: ''
     }
   },
   mounted: function () {
@@ -109,7 +141,8 @@ export default {
   },
   methods: {
     onPageLoad: function () {
-      if (!this.$session.get('authenticated', false)) {
+      if (!this.$session.exists('authenticated') ||
+        !this.$session.get('authenticated')) {
         this.$router.push('/home')
         return
       }
@@ -121,7 +154,7 @@ export default {
       var localItems = []
       localItems.push(wallet['accounts'][accountIdx])
       this.logos['ETH'] = 'static/img/ethereum.png'
-      this.updateEthBalance(wallet['accounts'][accountIdx].address)
+      this.updateEthBalance(wallet['accounts'][accountIdx])
       var tokens = this.$session.get('erc20_tokens', [])
       for (var i = 0; i < tokens.length; i++) {
         var tE = {}
@@ -135,11 +168,12 @@ export default {
       }
       this.items = localItems
     },
-    updateEthBalance: function (address) {
-      axios.get('https://api.etherscan.io/api?module=account&action=balance&address=' + address + '&tag=latest&apikey=AA34ZUFBTWM45APMWEFZ5XGKZM2B6YWTHH')
+    updateEthBalance: function (acct) {
+      axios.get('https://api.etherscan.io/api?module=account&action=balance&address=' + acct.address + '&tag=latest&apikey=AA34ZUFBTWM45APMWEFZ5XGKZM2B6YWTHH')
         .then(response => {
           // get body data
           this.items[0].balance = response.data.result
+          acct.balance = parseFloat(response.data.result)
         }, response => {
           // error callback
           this.items[0].balance = 'n/a'
@@ -170,13 +204,38 @@ export default {
         })
     },
     viewHistory: function (idx, event) {
-      this.$router.push('/account/history/' + this.items[idx].symbol + '/' + this.items[idx].address)
+      axios.get('https://api.etherscan.io/api?module=account&action=txlist&page=1&offset=0&address=' + this.items[idx].address + '&startblock=0&endblock=99999999&sort=asc&apikey=AA34ZUFBTWM45APMWEFZ5XGKZM2B6YWTHH')
+        .then(response => {
+          // get body data
+          var txlist = response.data.result
+          for (var i = txlist.length - 1; i >= 0; i--) {
+            var txe = []
+            txe['amount'] = parseFloat(txlist[i].value) / 1e18
+            if (this.items[idx].address.toLowerCase() === txlist[i].from.toLowerCase()) {
+              txe['address'] = txlist[i].to
+              txe['type'] = 'Spend'
+            } else {
+              txe['type'] = 'Receive'
+              txe['address'] = txlist[i].from
+            }
+
+            txe['link'] = 'https://etherscan.io/tx/' + txlist[i].hash
+            var d = new Date()
+            d.setTime(txlist[i].timeStamp * 1000)
+            txe['date'] = d.toLocaleString()
+            this.history_items.push(txe)
+          }
+        }, response => {
+          // error callback
+        })
+      // this.$router.push('/account/history/' + this.items[idx].symbol + '/' + this.items[idx].address)
     },
     sendTo: function (idx, event) {
       var _token = 'f7948af1945f4f779f4deb8988acec91'
-
-      var pkey = '0x' + this.$session.get('eth_pkey')
-      var ourTx = createTransaction(pkey, this.eth_send_address, this.eth_send_amount)
+      var wallet = this.$ls.get('wallet')
+      var acct = wallet['accounts'][idx]
+      var pkey = acct.private
+      var ourTx = createTransaction(pkey, this.sendform_to, this.sendform_amount)
 
       axios.post('https://api.blockcypher.com/v1/eth/main/txs/push?token=' + _token,
         {

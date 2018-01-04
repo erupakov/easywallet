@@ -82,24 +82,21 @@ async function restoreWallet (words, obj) {
   // on address gaping
   var account0 = deriveKey(0, bip32ExtendedKey)
   // create initial wallet structure
-  var wallet = {
+  var acct = {
+    index: 0,
+    type: 'Ethereum',
+    name: '',
+    password: '',
+    derivePath: derivePath,
     extendedKey: bip32ExtendedKey.toBase58(),
-    accounts: [
-      {
-        index: 0,
-        type: 'Ethereum',
-        name: '',
-        password: '',
-        derivePath: derivePath,
-        balance: 0,
-        symbol: 'ETH',
-        private: account0.private,
-        public: account0.public,
-        address: account0.address
-      }
-    ]
+    balance: 0,
+    symbol: 'ETH',
+    private: account0.private,
+    public: account0.public,
+    address: account0.address
   }
-  obj.$ls.set('wallet', wallet)
+  var wallet = this.$ls.get('wallet')
+  wallet['accounts'].push(acct)
   obj.$session.set('selectedAccountIndex', 0)
   obj.$session.set('authenticated', true)
   return obj

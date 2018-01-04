@@ -3,7 +3,7 @@
 <div class="container-fluid">
 	<div class="row">
 	<div class="card-deck">
-    <account-card v-for="ac in test_accounts" :key="ac.index" v-bind:account-id="ac.index" v-bind:account-name="ac.name"
+    <account-card v-for="(ac,index) in test_accounts" :key="index" v-bind:account-id="index" v-bind:account-name="ac.name"
     v-bind:account-address="ac.address" v-bind:account-type="ac.type"></account-card>
 	</div>
 	</div>
@@ -14,11 +14,12 @@
 	</div>
 <div>
   <!-- Modal Component -->
-  <b-modal ref="removeModalRef" id="modalRemove" :title="remove_text_title">
+  <b-modal id="modalRemove" :title="remove_text_title">
     <p class="my-4">{{ remove_text_intro }}</p>
 	<div class="alert alert-danger">{{ remove_text_warning }}</div>
 	<p><strong>{{ removemodal_account_name }}</strong></p>
 	<p>{{ removemodal_account_address }}</p>
+    <b-button variant="danger" v-on:click="removeAccount" class="my-2" id="btnRemoveAccount">{{ remove_account_msg }}</b-button>
   </b-modal>
 </div>
 </div>
@@ -27,24 +28,6 @@
 
 <script>
 import AccountCard from '@/components/AccountCard'
-import ethUtil from 'ethereumjs-util'
-import bitcoinjs from 'bitcoinjs-lib'
-
-function deriveKey (index, extendedKey) {
-  var key = extendedKey.derive(index)
-  var address = key.getAddress().toString()
-  var privkey = 'NA'
-  var pubkey = key.getPublicKeyBuffer().toString('hex')
-  var privKeyBuffer = key.keyPair.d.toBuffer()
-  privkey = privKeyBuffer.toString('hex')
-  var addressBuffer = ethUtil.privateToAddress(privKeyBuffer)
-  var hexAddress = addressBuffer.toString('hex')
-  var checksumAddress = ethUtil.toChecksumAddress(hexAddress)
-  address = ethUtil.addHexPrefix(checksumAddress)
-  privkey = ethUtil.addHexPrefix(privkey)
-  pubkey = ethUtil.addHexPrefix(pubkey)
-  return { private: privkey, public: pubkey, address: address }
-}
 
 export default {
   name: 'ChooseAccount',
@@ -55,6 +38,9 @@ export default {
       remove_text_title: this.$lang.choose_account.remove_text_title,
       remove_text_intro: this.$lang.choose_account.remove_text_intro,
       remove_text_warning: this.$lang.choose_account.remove_text_warning,
+      removemodal_account_address: '',
+      removemodal_account_name: '',
+      remove_account_msg: 'Remove',
       test_accounts: [ ],
       create_disabled: false
     }
@@ -71,38 +57,12 @@ export default {
       return this.test_accounts
     },
     newAccount: function (event) {
-      // TODO: calculate currect account index according BIP-44 directions
-      // on address gaping
       this.$router.push('/home/name')
-      var wallet = this.$ls.get('wallet')
-      var nextIdx = 0
-      for (var i = 0; i < wallet['accounts'].length; i++) {
-        if (wallet['accounts'][i].index > nextIdx) {
-          nextIdx = wallet['accounts'][i].index
-        }
-      }
-      nextIdx++
-
-      var derivePath = 'm/44\'/60\'/0\'/' + nextIdx
-      var bip32ExtendedKey = bitcoinjs.HDNode.fromBase58(wallet['extendedKey'], bitcoinjs.networks.bitcoin)
-      var newaccount = deriveKey(nextIdx, bip32ExtendedKey)
-      // create initial wallet structure
-      var acct = {
-        index: nextIdx,
-        type: 'Ethereum',
-        name: '',
-        password: '',
-        derivePath: derivePath,
-        balance: '0',
-        symbol: 'ETH',
-        private: newaccount.private,
-        public: newaccount.public,
-        address: newaccount.address
-      }
-      wallet['accounts'].push(acct)
+    },
+    removeAccount: function (event) {
+      var wallet = this.$ls.get('wallet', [])
+      wallet['accounts'].slice(this.account_idx)
       this.$ls.set('wallet', wallet)
-      this.$session.set('selectedAccountIndex', wallet['accounts'].length - 1)
-      this.$router.push('/home/name')
     }
   },
   components: {
