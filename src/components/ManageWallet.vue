@@ -53,9 +53,9 @@
       </b-form-group>
       <b-form-group id="exampleGroup4">
         <b-form-checkbox-group id="ethGasDefault">
-          <b-form-checkbox v-model="sendform_gasDefault" value="yes">Use default gas (21 Gwei)</b-form-checkbox>
+          <b-form-checkbox v-model="sendform_gasDefault">Use default gas (21 Gwei)</b-form-checkbox>
           <b-form-input id="ethGasAmount" 
-            :disabled="sendform_gasDefault==false"
+            :disabled="sendform_gasDefault"
             label="Custom gas amount"
             type="number"
             v-model="sendform_customGas"
@@ -63,11 +63,11 @@
           </b-form-input>
         </b-form-checkbox-group>
       </b-form-group>
-      <b-button type="submit" variant="primary">Send</b-button>
+      <b-button type="submit" id="btnSend" variant="primary">Send</b-button>
     </b-form>
   </b-modal>
   <!-- History Modal -->
-  <b-modal id="modalHistory" large title="Account transactions" ok-only="true" button-size="large">
+  <b-modal id="modalHistory" size="lg" title="Account transactions" ok-only="true" button-size="large">
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
@@ -85,7 +85,7 @@
         <td>{{ item.amount }}</td>
         <td>{{ item.address }}</td>
         <td>
-          <b-button variant="primary" name="btnSend" :href="item.link" target="_blank">View on Etherscan</b-button>
+          <b-button variant="primary" name="btnCheckEtherscan" :href="item.link" target="_blank">View on Etherscan</b-button>
         </td>
       </tr>
       </tbody>
@@ -104,8 +104,7 @@ var utils = ethers.utils
 var providers = ethers.providers
 
 function createTransaction (pKey, to, balance) {
-  var privateKey = pKey
-  var wallet = new ethers.Wallet(privateKey)
+  var wallet = new ethers.Wallet(pKey)
 
   var transaction = {
     nonce: 0,
@@ -264,3 +263,9 @@ export default {
   }
 }
 </script>
+
+<style>
+#btnSend {
+    width: 240px;
+}
+</style>

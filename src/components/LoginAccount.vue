@@ -95,9 +95,9 @@ async function restoreWallet (words, obj) {
     public: account0.public,
     address: account0.address
   }
-  var wallet = this.$ls.get('wallet')
+  var wallet = obj.$ls.get('wallet', { accounts: [] })
   wallet['accounts'].push(acct)
-  obj.$session.set('selectedAccountIndex', 0)
+  obj.$session.set('selectedAccountIndex', wallet['accounts'].length - 1)
   obj.$session.set('authenticated', true)
   return obj
 }
@@ -140,7 +140,7 @@ export default {
         restoreWallet(this.seed_phrase, this)
           .then(function (obj) {
             obj.show_spinner = false
-            obj.$router.push('/home/name')
+            obj.$router.push('/home/restore')
           })
       }
     }
@@ -148,7 +148,3 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>
