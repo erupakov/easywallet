@@ -85,6 +85,7 @@ export default {
         // mnemonic invalid
         this.$notify({
           group: 'flash',
+          type: 'error',
           title: 'Incorrect seed phrase',
           text: 'Seed phrase validation failed, please try again.'
         })
@@ -92,6 +93,7 @@ export default {
         // correct
         this.$notify({
           group: 'flash',
+          type: 'success',
           title: 'Seed phrase correct',
           text: 'Seed phrase correct, opening wallet.'
         })
@@ -105,7 +107,7 @@ export default {
         bip32RootKey = bitcoinjs.HDNode.fromSeedHex(seed, network)
 
         // clear words
-        this.$session.clear('mnemonicPhrase')
+        this.$session.remove('mnemonicPhrase')
         words = null
         var derivePath = 'm/44\'/60\'/0\'/0'
         var bip32ExtendedKey = calcBip32ExtendedKey(
@@ -116,33 +118,18 @@ export default {
         // on address gaping
         var account0 = deriveKey(0, bip32ExtendedKey)
         // create initial wallet structure
-        var wallet = {
-          extendedKey: bip32ExtendedKey.toBase58(),
-          accounts: [
-            {
-              index: 0,
-              type: 'Ethereum',
-              name: '',
-              password: '',
-              derivePath: derivePath,
-              balance: 0,
-              symbol: 'ETH',
-              private: account0.private,
-              public: account0.public,
-              address: account0.address
-            }
-          ]
-        }
-        this.$session.set('wallet', wallet)
-        this.$session.set('selectedAccountIndex', 0)
-        this.$router.push('/home/name')
+        var selectedIdx = this.$session.get('selectedAccountIndex')
+        var wallet = this.$ls.get('wallet')
+        wallet['accounts'][selectedIdx].derivePath = derivePath
+        wallet['accounts'][selectedIdx].extendedKey = bip32ExtendedKey.toBase58()
+        wallet['accounts'][selectedIdx].private = account0.private
+        wallet['accounts'][selectedIdx].public = account0.public
+        wallet['accounts'][selectedIdx].address = account0.address
+
+        this.$ls.set('wallet', wallet)
+        this.$router.push('/account/manage')
       }
     }
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>

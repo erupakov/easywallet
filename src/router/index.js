@@ -14,6 +14,7 @@ import Welcome from '@/components/Welcome'
 
 import ManageWallet from '@/components/ManageWallet'
 import SendWallet from '@/components/SendWallet'
+import RestoreNameAccount from '@/components/RestoreNameAccount'
 import HistoryWallet from '@/components/HistoryWallet'
 
 Vue.use(Router)
@@ -47,6 +48,10 @@ export default new Router({
         {
           path: 'name',
           component: NameAccount
+        },
+        {
+          path: 'restore',
+          component: RestoreNameAccount
         },
         {
           path: 'password',

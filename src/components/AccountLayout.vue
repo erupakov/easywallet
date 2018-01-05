@@ -6,7 +6,7 @@
   <b-navbar-brand to="/account/manage"><img class="img-responsive" style="height: 50px;" alt="easyWallet logo" src="../assets/logo.png" /></b-navbar-brand>
   <b-collapse is-nav id="nav_collapse">
   <b-navbar-nav>
-    <b-nav-text><b>{{ acc_name }}</b>&nbsp;{{ acc_address }}</p></b-nav-text>
+    <b-nav-text><b>{{ acc_name }}</b>&nbsp;{{ acc_address }}</b-nav-text>
     <b-nav-item v-on:click="copyAddress"><span class="fa fa-clone"></span></b-nav-item>
   </b-navbar-nav>
 
@@ -29,14 +29,15 @@ export default {
     }
   },
   mounted: function () {
-    this.$nextTick(function () {
-      this.onPageLoad()
-    })
+    this.onPageLoad()
   },
   methods: {
     onPageLoad: function () {
-      var wallet = this.$session.get('wallet', [])
-      var accountIdx = this.$session.get('selectedAccountIndex', 0)
+      var wallet = this.$ls.get('wallet', [])
+      var accountIdx = 0
+      if (this.$session.exists('selectedAccountIndex')) {
+        accountIdx = this.$session.get('selectedAccountIndex')
+      }
       this.acc_address = wallet['accounts'][accountIdx].address
       this.acc_name = wallet['accounts'][accountIdx].name
     },

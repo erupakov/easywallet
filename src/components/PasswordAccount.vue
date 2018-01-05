@@ -1,4 +1,5 @@
 <template>
+<transition>
 <div style="width: 100%;" class="d-flex justify-content-center">
     <div class="d-flex flex-column text-center">
         <p><b>{{ account_name }}</b>:{{ account_address }}</p>
@@ -30,24 +31,29 @@ export default {
   },
   mounted: function () {
     this.$session.set('authenticated', false)
-    this.$nextTick(function () {
-      this.onPageLoad()
-    })
+    this.onPageLoad()
   },
   methods: {
     onPageLoad: function () {
-      var wallet = this.$session.get('wallet', [])
-      var accountIdx = this.$session.get('selectedAccountIndex', 0)
+      var wallet = this.$ls.get('wallet')
+      var accountIdx = 0
+      if (this.$session.exists('selectedAccountIndex')) {
+        accountIdx = this.$session.get('selectedAccountIndex')
+      }
       this.account_name = wallet['accounts'][accountIdx].name
       this.account_address = wallet['accounts'][accountIdx].address
     },
     loginAccount: function () {
-      var wallet = this.$session.get('wallet', [])
-      var accountIdx = this.$session.get('selectedAccountIndex', 0)
+      var wallet = this.$ls.get('wallet')
+      var accountIdx = 0
+      if (this.$session.exists('selectedAccountIndex')) {
+        accountIdx = this.$session.get('selectedAccountIndex')
+      }
       var hash = ethUtil.bufferToHex(ethUtil.sha3(this.account_password))
       if (hash !== wallet['accounts'][accountIdx].password) {
         this.$notify({
           group: 'flash',
+          type: 'error',
           title: 'Login incorrect',
           text: 'The password you entered is incorrect. Please try again'
         })

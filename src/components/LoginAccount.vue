@@ -82,25 +82,22 @@ async function restoreWallet (words, obj) {
   // on address gaping
   var account0 = deriveKey(0, bip32ExtendedKey)
   // create initial wallet structure
-  var wallet = {
+  var acct = {
+    index: 0,
+    type: 'Ethereum',
+    name: '',
+    password: '',
+    derivePath: derivePath,
     extendedKey: bip32ExtendedKey.toBase58(),
-    accounts: [
-      {
-        index: 0,
-        type: 'Ethereum',
-        name: '',
-        password: '',
-        derivePath: derivePath,
-        balance: 0,
-        symbol: 'ETH',
-        private: account0.private,
-        public: account0.public,
-        address: account0.address
-      }
-    ]
+    balance: 0,
+    symbol: 'ETH',
+    private: account0.private,
+    public: account0.public,
+    address: account0.address
   }
-  obj.$session.set('wallet', wallet)
-  obj.$session.set('selectedAccountIndex', 0)
+  var wallet = obj.$ls.get('wallet', { accounts: [] })
+  wallet['accounts'].push(acct)
+  obj.$session.set('selectedAccountIndex', wallet['accounts'].length - 1)
   obj.$session.set('authenticated', true)
   return obj
 }
@@ -126,6 +123,7 @@ export default {
         // mnemonic invalid
         this.$notify({
           group: 'flash',
+          type: 'error',
           title: 'Incorrect seed phrase',
           text: 'Seed phrase validation failed, please try again.'
         })
@@ -133,6 +131,7 @@ export default {
         // correct
         this.$notify({
           group: 'flash',
+          type: 'success',
           title: 'Seed phrase correct',
           text: 'Seed phrase correct, opening wallet.'
         })
@@ -141,7 +140,7 @@ export default {
         restoreWallet(this.seed_phrase, this)
           .then(function (obj) {
             obj.show_spinner = false
-            obj.$router.push('/home/name')
+            obj.$router.push('/home/restore')
           })
       }
     }
@@ -149,7 +148,3 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>

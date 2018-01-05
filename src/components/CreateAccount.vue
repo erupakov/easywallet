@@ -12,7 +12,7 @@
     </div>
 </div>
 </transition>
-</template>home
+</template>
 
 <script>
 import bip39 from 'bip39'
@@ -36,6 +36,7 @@ export default {
       this.seed_phrase = words
       this.$notify({
         group: 'flash',
+        type: 'success',
         title: 'Account created',
         text: 'Your new account was successfully created.'
       })
@@ -49,7 +50,3 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>

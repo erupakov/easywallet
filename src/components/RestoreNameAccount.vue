@@ -120,32 +120,15 @@ export default {
               })
               console.log(JSON.stringify(error))
             })
-            // create wallet
-            var wallet = this.$ls.get('wallet', { accounts: [] })
+            var idx = this.$session.get('selectedAccountIndex')
+            var wallet = this.$ls.get('wallet')
 
-            var accountIdx = 0
-            if (wallet['accounts'].length > 0) {
-              accountIdx = wallet['accounts'].length
-            }
-            this.$session.set('selectedAccountIndex', accountIdx)
+            wallet['accounts'][idx].name = this.account_name
+            wallet['accounts'][idx].password = ethUtil.bufferToHex(ethUtil.sha3(this.account_password))
 
-            var acct = {
-              index: 0,
-              type: 'Ethereum',
-              name: this.account_name,
-              password: ethUtil.bufferToHex(ethUtil.sha3(this.account_password)),
-              derivePath: '',
-              extendedKey: '',
-              balance: 0,
-              symbol: 'ETH',
-              private: '',
-              public: '',
-              address: ''
-            }
-            wallet['accounts'].push(acct)
             this.$ls.set('wallet', wallet)
             this.$session.set('authenticated', true)
-            this.$router.push('/home/create')
+            this.$router.push('/account/manage')
           } else { // response data unsuccess
             this.$notify({
               group: 'flash',
