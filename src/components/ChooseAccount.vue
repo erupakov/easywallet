@@ -9,7 +9,7 @@
 	</div>
 	<div class="row">
 	<div class="col-xs-6 col-sm-5 col-md-4">
-    <b-button variant="primary" block :disabled="create_disabled" v-on:click="newAccount" class="my-2" id="btnCreateAccount">{{ create_account_msg }}</b-button>
+    <b-button variant="primary" block v-on:click="newAccount" class="my-2" id="btnCreateAccount">{{ create_account_msg }}</b-button>
 	</div>
 	</div>
 <div>
@@ -42,16 +42,12 @@ export default {
       removemodal_account_name: '',
       remove_account_msg: 'Remove',
       test_accounts: [ ],
-      create_disabled: false,
       remove_idx: 0
     }
   },
   mounted: function () {
     var wallet = this.$ls.get('wallet')
     this.test_accounts = wallet['accounts']
-    if (wallet['accounts'].length === 0) {
-      this.create_disabled = true
-    }
   },
   methods: {
     accounts: function () {
@@ -65,9 +61,6 @@ export default {
       wallet['accounts'].splice(this.remove_idx, 1)
       this.test_accounts.splice(this.remove_idx, 1)
       this.$ls.set('wallet', wallet)
-      if (wallet['accounts'].length === 0) {
-        this.create_disabled = true
-      }
     },
     showRemoveCard: function (idx, event) {
       this.remove_idx = idx
