@@ -1,14 +1,31 @@
 <template>
 <transition>
+<div>
+        <h1 class="logotype-title">{{ account_name }}</h1>
+        <div class="login">
+          <div class="form-group">
+            <input class="form-control" id="inputPhrase" type="text" placeholder="Phrase" required>
+            <button type="submit">
+              <svg>
+                <use xlink:href="#icon-arrow-right"></use>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="underform-line clearfix">
+          <a class="pull-left" href="#">{{ $lang.password_account.another_account_msg }}</a>
+          <a class="pull-right" href="login.html">Logout</a>
+        </div>
+</div>
 <div style="width: 100%;" class="d-flex justify-content-center">
     <div class="d-flex flex-column text-center">
         <p><b>{{ account_name }}</b>:{{ account_address }}</p>
-        <label for="account_password">{{ enter_pwd_msg }}</label>
-        <b-form-input v-model="account_password" placeholder="Enter password" name="account_password" type="password" required/>
+        <label for="account_password">{{ $lang.password_account.enter_pwd_msg }}</label>
+        <b-form-input v-model="account_password" :placeholder="$lang.password_account.enter_pwd_text" name="account_password" type="password" required/>
         <div class="my-2 mx-auto">
-	        <b-button style="width: 240px;" variant="primary" v-on:click="loginAccount" id="btnLogin">{{ btn_login_msg }}</b-button>
+	        <b-button style="width: 240px;" variant="primary" v-on:click="loginAccount" id="btnLogin">{{ $lang.password_account.btn_login_msg }}</b-button>
         </div>
-        <b-link to="/home/choose" >{{ another_account_msg }}</b-link>        
+        <b-link to="/home/choose" >{{ $lang.password_account.another_account_msg }}</b-link>
     </div>
 </div>
 </transition>

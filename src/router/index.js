@@ -13,9 +13,7 @@ import ProceedAccount from '@/components/ProceedAccount'
 import Welcome from '@/components/Welcome'
 
 import ManageWallet from '@/components/ManageWallet'
-import SendWallet from '@/components/SendWallet'
 import RestoreNameAccount from '@/components/RestoreNameAccount'
-import HistoryWallet from '@/components/HistoryWallet'
 
 Vue.use(Router)
 
@@ -78,14 +76,6 @@ export default new Router({
         {
           path: 'manage',
           component: ManageWallet
-        },
-        {
-          path: 'send',
-          component: SendWallet
-        },
-        {
-          path: 'history/:symbol/:address',
-          component: HistoryWallet
         }
       ]
     }

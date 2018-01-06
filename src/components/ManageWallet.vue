@@ -1,25 +1,45 @@
 <template>
+<div>
   <div class="wallets-wrapper">
-    <h2 class="title">Active Wallets</h2>
+    <h2 class="title">{{ $lang.manage_accounts.active_wallets_text }}</h2>
       <div class="wallets">
         <account-card v-for="(ac,index) in accounts" :key="index" v-bind:account-id="index" v-bind:account-name="ac.name"
         v-bind:account-address="ac.address" v-bind:account-type="ac.type" v-on:removeCard="showRemoveCard" v-on:sendAccount="sendTo"
         v-on:historyAccount="viewHistory"></account-card>
-        <a class="wallet add" href="javascript:void(0)" data-toggle="modal" data-target="#addWallet"><span class="circle"><span class="plus"><img src="./images/icon-plus.png"></span></span><span class="name">Add Wallet</span></a>
+        <a class="wallet add" href="javascript:void(0)" data-toggle="modal" data-target="#addWallet">
+          <span class="circle"><span class="plus"><img src="./images/icon-plus.png"></span></span>
+          <span class="name">{{ $lang.manage_accounts.add_wallet_text }}</span>
+        </a>
       </div>
     </div>
 
+<!-- Enter password modal -->
+  <div class="modal fade" id="addWallet" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <h1 class="logotype-title">{{ account_name }}</h1>
+        <div class="login">
+          <div class="form-group">
+            <input class="form-control" id="inputPhrase" type="text" placeholder="Phrase" required>
+            <button type="submit">
+              <svg>
+                <use xlink:href="#icon-arrow-right"></use>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="underform-line clearfix">
+          <a class="pull-right" href="#">{{ $lang.manage_accounts.submit_btn_text }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <!-- Join ICO Modal -->
-  <b-modal id="modalICO" title="Join our ICO" ok-only="true" button-size="large">
-    <p class="my-4">Join our ICO by sending funds on our bank account:</p>
-	<p><strong>Bank of New York</strong></p>
-	<p>SWIFT code: BNY</p>
-	<p>Beneficinary: ben</p>
-	<p>Account: 432423532523</p>
-  </b-modal>
   <!-- Send funds modal-->
-  <b-modal id="modalSend" title="Send Ethers"  ok-only="true" button-size="large">
+  <div class="modal fade" id="sendFunds" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
 	<p><strong>Please fill in fields below to send funds:</strong></p>
     <b-form @submit="sendTo">
       <b-form-group id="igAddress"
@@ -57,34 +77,39 @@
       </b-form-group>
       <b-button type="submit" id="btnSend" variant="primary">Send</b-button>
     </b-form>
-  </b-modal>
+      </div>
+    </div>
+  </div>
   <!-- History Modal -->
-  <b-modal id="modalHistory" size="lg" title="Account transactions" ok-only="true" button-size="large">
-    <table class="table table-striped">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">Date</th>
-          <th scope="col">Type</th>
-          <th scope="col">Amount</th>
-          <th scope="col">Recipient/Sender</th>
-          <th scope="col">Action</th>
+  <div class="modal fade" id="historyModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      <table class="table table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Type</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Recipient/Sender</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr v-for="item in history_items" :key="item.date">
+          <td>{{ item.date }}</td>
+          <td>{{ item.type }}</td>
+          <td>{{ item.amount }}</td>
+          <td>{{ item.address }}</td>
+          <td>
+            <b-button variant="primary" name="btnCheckEtherscan" :href="item.link" target="_blank">View on Etherscan</b-button>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-      <tr v-for="item in history_items" :key="item.date">
-        <td>{{ item.date }}</td>
-        <td>{{ item.type }}</td>
-        <td>{{ item.amount }}</td>
-        <td>{{ item.address }}</td>
-        <td>
-          <b-button variant="primary" name="btnCheckEtherscan" :href="item.link" target="_blank">View on Etherscan</b-button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </b-modal>
+        </tbody>
+      </table>
+      </div>
+      </div>
+  </div>
 </div>
-
 </template>
 
 <script>
@@ -125,6 +150,7 @@ export default {
       sendform_gasDefault: true,
       history_items: [],
       accounts: [],
+      remove_idx: 0
     }
   },
   mounted: function () {
@@ -253,6 +279,19 @@ export default {
           text: 'There was error sending funds: ' + JSON.stringify(error)
         })
       })
+    },
+    removeAccount: function (event) {
+      var wallet = this.$ls.get('wallet', [])
+      wallet['accounts'].splice(this.remove_idx, 1)
+      this.test_accounts.splice(this.remove_idx, 1)
+      this.$ls.set('wallet', wallet)
+    },
+    showRemoveCard: function (idx, event) {
+      this.remove_idx = idx
+      var wallet = this.$ls.get('wallet', [])
+      this.removemodal_account_address = wallet['accounts'][idx].address
+      this.removemodal_account_name = wallet['accounts'][idx].name
+      this.$refs.modalRemoveWindow.show()
     }
   }
 }

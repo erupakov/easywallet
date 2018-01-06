@@ -50,9 +50,6 @@ export default {
     this.test_accounts = wallet['accounts']
   },
   methods: {
-    accounts: function () {
-      return this.test_accounts
-    },
     newAccount: function (event) {
       this.$router.push('/home/name')
     },
