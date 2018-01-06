@@ -110,7 +110,6 @@ export default {
                 title: 'Mail sent',
                 text: 'Email was sent successfully.'
               })
-              console.log(JSON.stringify(response.data))
             }).catch(error => {
               this.$notify({
                 group: 'flash',

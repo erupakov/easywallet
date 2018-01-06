@@ -1,0 +1,16 @@
+// Footer
+.footer,
+footer {
+  position: absolute;
+  bottom: 45px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  small {
+    display: block;
+    font-size: 14px;
+    color: $black;
+    opacity: .5;
+    text-align: center;
+  }
+}

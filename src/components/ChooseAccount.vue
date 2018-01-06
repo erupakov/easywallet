@@ -16,9 +16,9 @@
   <!-- Modal Component -->
   <b-modal id="modalRemove" ref="modalRemoveWindow" ok-only :title="remove_text_title">
     <p class="my-4">{{ remove_text_intro }}</p>
-	<div class="alert alert-danger">{{ remove_text_warning }}</div>
-	<p><strong>{{ removemodal_account_name }}</strong></p>
-	<p>{{ removemodal_account_address }}</p>
+	  <div class="alert alert-danger">{{ remove_text_warning }}</div>
+	  <p><strong>{{ removemodal_account_name }}</strong></p>
+	  <p>{{ removemodal_account_address }}</p>
     <b-button variant="danger" v-on:click="removeAccount" class="my-2" id="btnRemoveAccount">{{ remove_account_msg }}</b-button>
   </b-modal>
 </div>

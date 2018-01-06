@@ -1,14 +1,23 @@
 <template>
 <transition name="slide">
-<div style="width: 100%;" class="d-flex justify-content-center">
-    <div class="d-flex flex-column text-center">
-        <h3>{{ title_msg }}</h3>
-        <p>{{ backup_msg }}</p>
-        <b-form-textarea :value="seed_phrase" rows="4" readonly/>
-        <div class="my-2 mx-auto">
-	        <b-button variant="danger" v-on:click="goBack" id="btnBack">{{ btn_back_msg }}</b-button>        
-	        <b-button variant="primary" to="/home/confirm" id="btnManageAccount">{{ btn_copied_msg }}</b-button>
-        </div>
+<div>
+  <h1 class="logotype-title">{{ $lang.welcome.welcome_text }}</h1>
+    <div class="register">
+    <h3>{{ $lang.create_account.title_msg }}</h3>
+    <p class="alert alert-warning">{{ $lang.create_account.backup_msg }}</p>
+    <div class="form-group generated-phrase">
+      <input class="form-control" id="inputPhrase" type="text" :value="seed_phrase" readonly required>
+        <button class="copy-button" type="button" data-id="inputPhrase">
+          <svg>
+            <use xlink:href="#icon-copy"></use>
+          </svg>
+        </button>
+        <button v-on:click="$router.push('/home/confirm')" id="btnManageAccount"><span>{{ $lang.create_account.btn_copied_msg }}</span>
+          <svg>
+            <use xlink:href="#icon-arrow-right"></use>
+          </svg>
+        </button>
+      </div>
     </div>
 </div>
 </transition>
@@ -21,10 +30,6 @@ export default {
   name: 'CreateAccount',
   data () {
     return {
-      title_msg: this.$lang.create_account.title_text,
-      backup_msg: this.$lang.create_account.backup_text,
-      btn_copied_msg: this.$lang.create_account.btn_copied_text,
-      btn_back_msg: this.$lang.create_account.btn_back_text,
       seed_phrase: ''
     }
   },
@@ -37,8 +42,8 @@ export default {
       this.$notify({
         group: 'flash',
         type: 'success',
-        title: 'Account created',
-        text: 'Your new account was successfully created.'
+        title: this.$lang.create_account.notif_account_created_title,
+        text: this.$lang.create_account.notif_account_created_text
       })
     })
   },

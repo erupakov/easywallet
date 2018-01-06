@@ -1,0 +1,22 @@
+@mixin font-face($font-name, $file-name, $font-style: normal, $font-weight: normal) {
+  @font-face {
+    font-family: '#{$font-name}';
+    src: url('../fonts/#{$file-name}.otf') format('otf');
+
+    font-style: $font-style;
+    font-weight: $font-weight;
+  }
+}
+@import url('https://fonts.googleapis.com/css?family=Lato:100,300,400');
+
+@include font-face('SFUIDisplay', 'SFUIDisplay-Black', normal, 900);
+@include font-face('SFUIDisplay', 'SFUIDisplay-Heavy', normal, 700);
+@include font-face('SFUIDisplay', 'SFUIDisplay-Semibold', normal, 600);
+@include font-face('SFUIDisplay', 'SFUIDisplay-Medium', normal, 500);
+@include font-face('SFUIDisplay', 'SFUIDisplay-Regular', normal, 400);
+@include font-face('SFUIDisplay', 'SFUIDisplay-Light', normal, 300);
+@include font-face('SFUIDisplay', 'SFUIDisplay-Thin', normal, 200);
+@include font-face('SFUIDisplay', 'SFUIDisplay-Ultralight', normal, 100);
+
+$sfui: "SFUIDisplay", sans-serif;
+$lato: "Lato", sans-serif;

@@ -1,0 +1,151 @@
+/* Default settings */
+body {
+  font-family: $sfui;
+  font-size: 16px;
+  font-weight: 400;
+  color: $black;
+  background-color: #f8f8f8;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  position: relative;
+  height: 100vh;
+  &.dashboard {
+    height: 100%;
+    overflow-y: auto;
+  }
+}
+
+a {
+  color: $white;
+  @include crossBrowser(transition, .2s ease-in);
+  text-decoration: none;
+  &:hover,
+  &:focus,
+  &:active {
+    color: $white;
+    text-decoration: none;
+  }
+  &.main-btn {
+    display: block;
+    color: $white;
+    background: $red;
+    border: 1px solid transparent;
+    border-radius: 100px;
+    width: 178px;
+    height: 40px;
+    font-size: 24px;
+    line-height: 36px;
+    text-transform: lowercase;
+    text-align: center;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+    @include crossBrowser(transition, .2s ease-in);
+    &:hover {
+      background: $white;
+      border-color: $red;
+      color: $red;
+    }
+    &.transparent {
+      background: transparent;
+      border-color: $white;
+      &:hover {
+        background: $white;
+        color: $red;
+      }
+    }
+  }
+}
+
+ul {
+  li {
+    a {
+      color: $black;
+      &:hover {
+        color: $black;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+button {
+  @include crossBrowser(transition, .2s ease-in);
+}
+
+input {
+  &:focus {
+    outline: 0;
+  }
+}
+
+input[type='button'],
+input[type='submit'] {
+  display: block;
+  color: $white;
+  background: transparent;
+  border: 1px solid $white;
+  border-radius: 100px;
+  cursor: pointer;
+  width: 143px;
+  height: 40px;
+  font-size: 18px;
+  line-height: 36px;
+  text-transform: lowercase;
+  text-align: center;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+  @include crossBrowser(transition, .2s ease-in);
+  &:hover {
+    background: $white;
+    color: $red;
+  }
+}
+
+b {
+  font-weight: 700;
+}
+
+svg {
+  @include crossBrowser(transition, .2s ease-in);
+  path,
+  rect,
+  polygon {
+    fill: inherit;
+    @include crossBrowser(transition, .2s ease-in);
+  }
+}
+
+.thin {
+  font-weight: 100;
+}
+
+.light {
+  font-weight: 200;
+}
+
+.regular {
+  font-weight: 400;
+}
+
+.medium {
+  font-weight: 600;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.black {
+  font-weight: 900;
+}
+
+.purple {
+  color: $purple;
+}
+
+.red {
+  color: $red;
+}
+
+.white {
+  color: $white;
+}
+

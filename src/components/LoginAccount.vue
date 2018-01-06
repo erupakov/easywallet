@@ -1,16 +1,21 @@
 <template>
 <transition name="slide">
-<div style="width: 100%;" class="d-flex justify-content-center">
-    <div class="d-flex flex-column text-center">
-        <p>{{ backup_msg }}</p>
-        <b-form-textarea rows="4" v-model="seed_phrase" placeholder="Enter seed phrase"/>
-        <div class="my-2 mx-auto">
-          <div v-if="show_spinner" class="d-flex justify-content-center"><p>{{ modal_label }} <span class="fa fa-spinner fa-spin fa-2x fa-fw"></span></p></div>
-	        <b-button variant="danger" v-on:click="goBack" id="btnBack">{{ btn_back_msg }}</b-button>
-	        <b-button variant="primary" v-on:click="checkSeed" id="btnProceed">{{ btn_proceed_msg }}</b-button>
-        </div>
+  <h1 class="logotype-title">{{ $lang.welcome.welcome_text }}</h1>
+  <div class="relogin">
+    <div class="form-group">
+      <label class="control-label" for="inputPhrase">{{ $lang.login_account.backup_text }}</label>
+      <input class="form-control" id="inputPhrase" v-model="seed_phrase" type="text" :placeholder="$lang.login_account.enter_seed_phrase_text" required>
+        <button type="submit">
+          <svg>
+            <use xlink:href="#icon-arrow-right"></use>
+          </svg>
+        </button>
     </div>
-</div>
+  </div>
+  <div class="underform-line clearfix">
+    <a class="pull-left" href="#" v-on:click="goBack">{{ $lang.login_account.btn_back_msg }}</a>
+    <a class="pull-right" v-on:click="checkSeed" id="btnProceed" href="#">{{ $lang.login_account.btn_proceed_text }}</a>
+  </div>
 </transition>
 </template>
 
@@ -106,12 +111,8 @@ export default {
   name: 'LoginAccount',
   data () {
     return {
-      backup_msg: this.$lang.login_account.backup_text,
-      btn_proceed_msg: this.$lang.login_account.btn_proceed_text,
-      btn_back_msg: this.$lang.login_account.btn_back_text,
       seed_phrase: '',
       show_spinner: false,
-      modal_label: this.$lang.login_account.generating_account_text
     }
   },
   methods: {

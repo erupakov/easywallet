@@ -1,12 +1,7 @@
 <template>
-  <div>   
-  <div class="row pt-5">
-      <img class="logo mx-auto" alt="easyWallet logo" src="../assets/logo.png" />
-  </div>
-  <div class="row mt-5">
+    <div class="login-container"><a class="brand" href="/home"><img src="./images/logo.png" alt="logotype"></a>
       <router-view></router-view>
-  </div>
-  </div>
+    </div>
 </template>
 
 <script>

@@ -1,23 +1,15 @@
 <template>
-<div>
-  <h3>ASSETS</h3>
-  <div>
-    <table class="table table-striped">
-      <tbody>
-      <tr v-for="(item) in items" :key="item.address">
-        <td><img class="img-responsive" style="height: 62px;" :src="logos[item.symbol]" :alt="item.type"></td>
-        <td>{{ item.type }}</td>
-        <td>{{ item.symbol }}</td>
-        <td>{{ item.balance }}</td>
-        <td>
-          <b-button variant="success" name="btnHistory" v-if="item.type==='Ethereum'" v-b-modal.modalHistory>History</b-button>
-          <b-button variant="primary" name="btnSend" v-if="item.type==='Ethereum'" v-b-modal.modalSend>Send</b-button>
-          <b-button variant="primary" name="btnJoinICO" v-b-modal.modalICO v-if="item.type!=='Ethereum'">Join ICO!</b-button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+  <div class="wallets-wrapper">
+    <h2 class="title">Active Wallets</h2>
+      <div class="wallets">
+        <account-card v-for="(ac,index) in accounts" :key="index" v-bind:account-id="index" v-bind:account-name="ac.name"
+        v-bind:account-address="ac.address" v-bind:account-type="ac.type" v-on:removeCard="showRemoveCard" v-on:sendAccount="sendTo"
+        v-on:historyAccount="viewHistory"></account-card>
+        <a class="wallet add" href="javascript:void(0)" data-toggle="modal" data-target="#addWallet"><span class="circle"><span class="plus"><img src="./images/icon-plus.png"></span></span><span class="name">Add Wallet</span></a>
+      </div>
+    </div>
+
+
   <!-- Join ICO Modal -->
   <b-modal id="modalICO" title="Join our ICO" ok-only="true" button-size="large">
     <p class="my-4">Join our ICO by sending funds on our bank account:</p>
@@ -132,10 +124,12 @@ export default {
       sendform_customGas: 21,
       sendform_gasDefault: true,
       history_items: [],
-      history_symbol: ''
+      accounts: [],
     }
   },
   mounted: function () {
+    var wallet = this.$ls.get('wallet')
+    this.accounts = wallet['accounts']
     this.onPageLoad()
   },
   methods: {

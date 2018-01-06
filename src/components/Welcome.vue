@@ -1,11 +1,9 @@
 <template>
 <transition name="slide">
-<div style="width: 100%;" class="d-flex justify-content-center">
-    <div class="d-flex flex-column text-center">
-        <h3>{{ welcome_msg }}</h3>
-        <b-button variant="primary" to="/home/name" id="btnCreateAccount" class="my-2 mx-auto">{{ create_account_msg }}</b-button>
-        <b-link to="/home/login" >{{ click_msg }}</b-link>
-    </div>
+<div>
+  <h1 class="logotype-title">{{ $lang.welcome.welcome_text }}</h1>
+  <b-button variant="primary" to="/home/name" id="btnCreateAccount" class="my-2 mx-auto">{{ $lang.welcome.create_account_text }}</b-button>
+  <b-link to="/home/login" >{{ $lang.welcome.click_text }}</b-link>
 </div>
 </transition>
 </template>
@@ -15,9 +13,6 @@ export default {
   name: 'Welcome',
   data () {
     return {
-      welcome_msg: this.$lang.welcome.welcome_text,
-      create_account_msg: this.$lang.welcome.create_account_text,
-      click_msg: this.$lang.welcome.click_text
     }
   },
   mounted: function () {
