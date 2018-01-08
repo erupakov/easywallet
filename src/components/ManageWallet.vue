@@ -1,14 +1,14 @@
 <template>
 <div>
   <div class="wallets-wrapper">
-    <h2 class="title">{{ $lang.manage_accounts.active_wallets_text }}</h2>
+    <h2 class="title">{{ $lang.manage_account.active_wallets_text }}</h2>
       <div class="wallets">
         <account-card v-for="(ac,index) in accounts" :key="index" v-bind:account-id="index" v-bind:account-name="ac.name"
-        v-bind:account-address="ac.address" v-bind:account-type="ac.type" v-on:removeCard="showRemoveCard" v-on:sendAccount="sendTo"
+        v-bind:account-address="ac.address" v-bind:account-balance="ac.balance" v-on:removeCard="showRemoveCard" v-on:sendAccount="sendTo"
         v-on:historyAccount="viewHistory"></account-card>
         <a class="wallet add" href="#" data-toggle="modal" data-target="#addWallet">
-          <span class="circle"><span class="plus"><img src="assets/images/icon-plus.png"></span></span>
-          <span class="name">{{ $lang.manage_accounts.add_wallet_text }}</span>
+          <span class="circle"><span class="plus"><img src="../assets/images/icon-plus.png"></span></span>
+          <span class="name">{{ $lang.manage_account.add_wallet_text }}</span>
         </a>
       </div>
     </div>
@@ -20,7 +20,7 @@
         <h1 class="logotype-title">{{ account_name }}</h1>
         <div class="login">
           <div class="form-group">
-            <input class="form-control" id="inputPhrase" type="text" placeholder="Phrase" required>
+            <input class="form-control" id="inputPhrase" type="text" :placeholder="$lang.manage_account.your_password_text" required>
             <button type="submit">
               <svg>
                 <use xlink:href="#icon-arrow-right"></use>
@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="underform-line clearfix">
-          <a class="pull-right" href="#">{{ $lang.manage_accounts.submit_btn_text }}</a>
+          <a class="pull-right" href="#">{{ $lang.manage_account.submit_btn_text }}</a>
         </div>
       </div>
     </div>
@@ -41,47 +41,43 @@
       <div class="modal-content">
 
 	<p><strong>Please fill in fields below to send funds:</strong></p>
-    <b-form @submit="sendTo">
-      <b-form-group id="igAddress"
-                    label="Send funds to address"
-                    label-for="ethSendTo"
-                    description="Please enter destination Ethereum address (40 hex digits starting from 0x)">
-        <b-form-input id="ethSendTo"
+    <form @submit="sendTo" name="sendEthers">
+      <div class="form-group">
+        <label for="ethSendTo"><span>Send funds to address</span>
+        <small>Please enter destination Ethereum address (40 hex digits starting from 0x)</small>
+        </label>
+        <input id="ethSendTo"
                       type="text"
                       v-model="sendform_to"
                       required
                       placeholder="Enter destination address">
-        </b-form-input>
-      </b-form-group>
-      <b-form-group id="igAmount"
-                    label="Amount to send (in Ethers)"
-                    label-for="ethSendAmount">
-        <b-form-input id="ethSendAmount"
+      </div>
+      <div class="form-group">
+                    <label for="ethSendAmount">Amount to send (in Ethers)</label>
+        <input id="ethSendAmount"
                       type="number"
                       v-model="sendform_amount"
                       required
                       placeholder="0.1">
-        </b-form-input>
-      </b-form-group>
-      <b-form-group id="exampleGroup4">
-        <b-form-checkbox-group id="ethGasDefault">
-          <b-form-checkbox v-model="sendform_gasDefault">Use default gas (21 Gwei)</b-form-checkbox>
-          <b-form-input id="ethGasAmount" 
+      </div>
+      <div class="form-group">
+        <div class="checkbox-group">
+          <input type="checkbox" v-model="sendform_gasDefault">Use default gas (21 Gwei)
+          <input id="ethGasAmount" 
             :disabled="sendform_gasDefault"
             label="Custom gas amount"
             type="number"
             v-model="sendform_customGas"
             placeholder="21">
-          </b-form-input>
-        </b-form-checkbox-group>
-      </b-form-group>
-      <b-button type="submit" id="btnSend" variant="primary">Send</b-button>
-    </b-form>
+        </div>
+      </div>
+      <button type="submit" id="btnSend" class="btn btn-primary">Send</button>
+    </form>
       </div>
     </div>
   </div>
   <!-- History Modal -->
-  <div class="modal fade" id="historyModal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="historyModal" ref="historyModal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
       <table class="table table-striped">
@@ -101,7 +97,7 @@
           <td>{{ item.amount }}</td>
           <td>{{ item.address }}</td>
           <td>
-            <b-button variant="primary" name="btnCheckEtherscan" :href="item.link" target="_blank">View on Etherscan</b-button>
+            <a class="btn btn-primary" name="btnCheckEtherscan" :href="item.link" target="_blank">View on Etherscan</a>
           </td>
         </tr>
         </tbody>
@@ -116,6 +112,7 @@
 import axios from 'axios'
 import ethers from 'ethers'
 import stripHexPrefix from 'strip-hex-prefix'
+import AccountCard from '@/components/AccountCard'
 
 var utils = ethers.utils
 var providers = ethers.providers
@@ -142,7 +139,6 @@ export default {
   name: 'ManageWallet',
   data () {
     return {
-      items: [],
       logos: [],
       sendform_to: '',
       sendform_amount: 0.1,
@@ -153,49 +149,27 @@ export default {
       remove_idx: 0
     }
   },
+  components: {
+    'account-card': AccountCard
+  },
   mounted: function () {
-    var wallet = this.$ls.get('wallet')
-    this.accounts = wallet['accounts']
     this.onPageLoad()
   },
   methods: {
     onPageLoad: function () {
-      if (!this.$session.exists('authenticated') ||
-        !this.$session.get('authenticated')) {
-        this.$router.push('/home')
-        return
-      }
       var wallet = this.$ls.get('wallet')
-      var accountIdx = 0
-      if (this.$session.exists('selectedAccountIndex')) {
-        accountIdx = this.$session.get('selectedAccountIndex')
+      for (i = 0; i < wallet['accounts'].length; i++) {
+        this.updateEthBalance(wallet['accounts'][i])
       }
-      var localItems = []
-      localItems.push(wallet['accounts'][accountIdx])
-      this.logos['ETH'] = 'static/img/ethereum.png'
-      this.updateEthBalance(wallet['accounts'][accountIdx])
-      var tokens = this.$session.get('erc20_tokens', [])
-      for (var i = 0; i < tokens.length; i++) {
-        var tE = {}
-        Object.assign(tE, wallet['accounts'][accountIdx])
-        tE.index += i + 1
-        tE.type = tokens[i].name
-        tE.symbol = tokens[i].symbol
-        localItems.push(tE)
-        this.logos[tokens[i].symbol] = tokens[i].logo
-        this.updateTokenBalance(tE.symbol, wallet['accounts'][accountIdx].address)
-      }
-      this.items = localItems
     },
     updateEthBalance: function (acct) {
       axios.get('https://api.etherscan.io/api?module=account&action=balance&address=' + acct.address + '&tag=latest&apikey=AA34ZUFBTWM45APMWEFZ5XGKZM2B6YWTHH')
         .then(response => {
           // get body data
-          this.items[0].balance = response.data.result
           acct.balance = parseFloat(response.data.result)
         }, response => {
           // error callback
-          this.items[0].balance = 'n/a'
+          console.log('Error getting balance: ' + response)
         })
     },
     updateTokenBalance: function (symbol, address) {
@@ -244,13 +218,15 @@ export default {
             txe['date'] = d.toLocaleString()
             this.history_items.push(txe)
           }
+          this.$refs.historyModal.show()
         }, response => {
           // error callback
         })
       // this.$router.push('/account/history/' + this.items[idx].symbol + '/' + this.items[idx].address)
     },
     sendTo: function (idx, event) {
-      var _token = 'f7948af1945f4f779f4deb8988acec91'
+      // check parameters for validity
+      const _token = 'f7948af1945f4f779f4deb8988acec91'
       var wallet = this.$ls.get('wallet')
       var acct = wallet['accounts'][idx]
       var pkey = acct.private

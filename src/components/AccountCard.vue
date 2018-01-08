@@ -1,7 +1,7 @@
 <template>
 <div class="wallet main">
   <div class="title">
-    <div class="icon"><img src="assets/images/icon-eth.png" alt="eth"></div>
+    <div class="icon"><img src="../assets/images/icon-eth.png" alt="eth"></div>
     <div class="name"><span class="curr-name">Etherium</span><span class="curr-sub">ETH</span></div>
   </div>
   <div class="code">
@@ -22,7 +22,7 @@
     </svg></a><a href="#" v-on:click="passSend(account_idx)"><span>{{ $lang.choose_account.send_btn_text }}</span>
     <svg>
       <use xlink:href="#icon-arrow-right"></use>
-    </svg></a><a class="remove" v-on:click="passRemove(account_idx)" :data-id="account_idx" href="#">{{ btn_remove_msg }}</a>
+    </svg></a><a class="remove" v-on:click="passRemove(account_idx)" :data-id="account_idx" href="#">{{ $lang.choose_account.btn_remove_text }}</a>
   </div>
 </div>
 </template>
@@ -30,20 +30,16 @@
 <script>
 export default {
   name: 'AccountCard',
-  props: [ 'accountId', 'accountName', 'accountAddress', 'accountType' ],
+  props: [ 'accountId', 'accountName', 'accountAddress', 'accountBalance' ],
   data () {
     return {
       account_name: this.accountName,
       account_address: this.accountAddress,
-      account_idx: this.accountId
+      account_idx: this.accountId,
+      account_balance: this.accountBalance
     }
   },
   methods: {
-    chooseAccount: function (accountIdx, event) {
-      this.$session.set('selectedAccountIndex', accountIdx)
-      this.$session.set('authenticated', false)
-      this.$router.push('/home/password')
-    },
     passRemove: function (event) {
       this.$emit('removeCard', this.account_idx)
     },

@@ -17,7 +17,7 @@ export default {
   },
   mounted: function () {
     if (this.$ls.get('wallet', false) !== false) {
-      this.$router.push('/home/choose')
+      this.$router.push('/account/manage')
     }
   }
 }
