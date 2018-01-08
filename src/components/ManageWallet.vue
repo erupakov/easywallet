@@ -6,8 +6,8 @@
         <account-card v-for="(ac,index) in accounts" :key="index" v-bind:account-id="index" v-bind:account-name="ac.name"
         v-bind:account-address="ac.address" v-bind:account-type="ac.type" v-on:removeCard="showRemoveCard" v-on:sendAccount="sendTo"
         v-on:historyAccount="viewHistory"></account-card>
-        <a class="wallet add" href="javascript:void(0)" data-toggle="modal" data-target="#addWallet">
-          <span class="circle"><span class="plus"><img src="./images/icon-plus.png"></span></span>
+        <a class="wallet add" href="#" data-toggle="modal" data-target="#addWallet">
+          <span class="circle"><span class="plus"><img src="assets/images/icon-plus.png"></span></span>
           <span class="name">{{ $lang.manage_accounts.add_wallet_text }}</span>
         </a>
       </div>

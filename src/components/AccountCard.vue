@@ -1,7 +1,7 @@
 <template>
 <div class="wallet main">
   <div class="title">
-    <div class="icon"><img src="./images/icon-eth.png" alt="eth"></div>
+    <div class="icon"><img src="assets/images/icon-eth.png" alt="eth"></div>
     <div class="name"><span class="curr-name">Etherium</span><span class="curr-sub">ETH</span></div>
   </div>
   <div class="code">
@@ -52,7 +52,7 @@ export default {
     },
     passHistory: function (event) {
       this.$emit('historyAccount', this.account_idx)
-    }    
+    }
   }
 }
 </script>

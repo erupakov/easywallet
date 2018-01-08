@@ -1,44 +1,40 @@
-console.log('app.js has loaded!');
+/* eslint-disable */
+console.log('app.js has loaded!')
 
-;(function($) {
-  "use strict";
+;(function ($) {
+  'use strict'
 
   // modules requires
-  let clickFunctions = require('./clickFunctions');
+  let clickFunctions = require('./clickFunctions')
 
   // functions
 
-
   // document ready functions
-  $(document).ready(function() {
-
+  $(document).ready(function () {
     $('form').validator({
       focus: false
-    });
+    })
 
-    $("html, body").animate({ scrollTop: 0 }, 0);
+    $('html, body').animate({ scrollTop: 0 }, 0)
     // modules
 
     // functions
-
-  }); // end of document ready
+  }) // end of document ready
 
   // window load functions
-  $(window).on('load', function() {
+  $(window).on('load', function () {
 
-  }); // end of window load
+  }) // end of window load
 
   // initialization
-  clickFunctions();
-
+  clickFunctions()
 
   // window resize functions
-  $(window).resize(function() {
+  $(window).resize(function () {
 
-  });  // end of window resize
+  }) // end of window resize
 
-  $(document).on('scroll', function() {
+  $(document).on('scroll', function () {
 
-  });
-
-})(jQuery);
+  })
+})(jQuery)

@@ -2,46 +2,46 @@
 <transition name="slide">
 <div>
   <h1 class="logotype-title">{{ $lang.welcome.welcome_text }}</h1>
-    <div class="register">
+    <form class="register" v-on:submit="setName" name="registerForm">
       <div class="form-group">
-        <label class="control-label" for="account_name">{{ $lang.confirm_account.enter_name_text }}
-          <small>{{ $lang.confirm_account.enter_name_tip_text }}</small>
-        </label>        
-        <input class="form-control" v-model="account_name" id="account_name" name="account_name" type="text" :placeholder="$lang.confirm_account.enter_name_placeholder_text" required>
+        <input class="form-control" v-model="account_name" id="account_name" name="account_name" type="text" :placeholder="$lang.confirm_account.enter_name_tip_text" required>
       </div>
       <div class="form-group">
-        <label for="account_password">{{ $lang.confirm_account.enter_pwd_text }}</label>
-        <input class="form-control" v-model="account_password" placeholder="Enter password" name="account_password" type="password" required>
+        <input class="form-control" v-model="account_password" :placeholder="$lang.confirm_account.enter_pwd_text" name="account_password" type="password" required>
       </div>
       <div class="form-group">
-        <label for="account_password_confirmation">{{ $lang.confirm_account.confirm_pwd_text }}</label>
         <input class="form-control" v-model="account_password_confirmation" :placeholder="$lang.confirm_account.confirm_pwd_text" name="account_password_confirmation" type="password" required>
       </div>
       <div class="form-group">
         <input id="checkbox1" class="form-control" type="checkbox" v-model="agree_with_terms" value="accepted">
           {{ $lang.confirm_account.agree_with_terms_text }}
-          <a class="btn btn-link" v-b-modal.serviceTerms href="#">{{ $lang.confirm_account.read_here_text }}</a>
+          <a class="btn btn-link" data-target="serviceTerms" data-toggle="modal" href="#">{{ $lang.confirm_account.read_here_text }}</a>
       </div>
       <div class="form-group">      
         <vue-recaptcha sitekey="6Le6ez4UAAAAAGUDVxtXhzdFuvCEwswpevK03Yd4" ref="recaptcha"
           @verify="onVerify"
           @expired="onExpired"></vue-recaptcha>
       </div>
-      <div class="underform-line clearfix">
-        <a class="pull-right" v-on:click="setName" id="btnSetName"><span>{{ $lang.confirm_account.btn_confirm_text }}</span>
-          <svg>
-            <use xlink:href="#icon-arrow-right"></use>
-          </svg>
-        </a>
+            <button type="submit"><span>Create Account</span>
+              <svg>
+                <use xlink:href="#icon-arrow-right"></use>
+              </svg>
+            </button>
+    </form>
+  <!-- Modal Component -->
+    <div class="modal fade" id="serviceTerms" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-head">
+          <h3>{{ $lang.confirm_account.terms_of_service_title }}</h3>
+        </div>
+        <div class="modal-content">
+          <p class="my-4"><strong>{{ $lang.confirm_account.terms_of_service_text }}</strong></p>
+	        <p>{{ $lang.confirm_account.terms_of_service_text_paragraph_1 }}</p>
+  	      <p>{{ $lang.confirm_account.terms_of_service_text_paragraph_2 }}</p>
+	        <p>{{ $lang.confirm_account.terms_of_service_text_paragraph_3 }}</p>
+        </div>
       </div>
     </div>
-  <!-- Modal Component -->
-  <b-modal id="serviceTerms" :title="$lang.confirm_account.terms_of_service_title" ok-only button-size="large">
-    <p class="my-4"><strong>{{ $lang.confirm_account.terms_of_service_text }}</strong></p>
-	  <p>{{ $lang.confirm_account.terms_of_service_text_paragraph_1 }}</p>
-  	<p>{{ $lang.confirm_account.terms_of_service_text_paragraph_2 }}</p>
-	  <p>{{ $lang.confirm_account.terms_of_service_text_paragraph_3 }}</p>
-  </b-modal>
 </div>
 </transition>
 </template>
@@ -72,6 +72,7 @@ export default {
     onExpired: function () {
     },
     setName: function (event) {
+      event.preventDefault()
       if (this.account_name === '' || this.account_password === '') {
         this.$notify({
           group: 'flash',

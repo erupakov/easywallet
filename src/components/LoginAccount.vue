@@ -1,9 +1,10 @@
 <template>
 <transition name="slide">
+<div>
   <h1 class="logotype-title">{{ $lang.welcome.welcome_text }}</h1>
-  <div class="relogin">
-    <div class="form-group">
-      <label class="control-label" for="inputPhrase">{{ $lang.login_account.backup_text }}</label>
+  <form class="login" v-on:submit="checkSeed">
+    <div class="form-group has-error has-danger">
+      <label for="inputPhrase">{{ $lang.login_account.backup_text }}</label>
       <input class="form-control" id="inputPhrase" v-model="seed_phrase" type="text" :placeholder="$lang.login_account.enter_seed_phrase_text" required>
         <button type="submit">
           <svg>
@@ -11,11 +12,12 @@
           </svg>
         </button>
     </div>
-  </div>
+  </form>
   <div class="underform-line clearfix">
-    <a class="pull-left" href="#" v-on:click="goBack">{{ $lang.login_account.btn_back_msg }}</a>
+    <a class="pull-left" href="#" v-on:click="goBack">{{ $lang.login_account.btn_back_text }}</a>
     <a class="pull-right" v-on:click="checkSeed" id="btnProceed" href="#">{{ $lang.login_account.btn_proceed_text }}</a>
   </div>
+</div>
 </transition>
 </template>
 
@@ -112,7 +114,7 @@ export default {
   data () {
     return {
       seed_phrase: '',
-      show_spinner: false,
+      show_spinner: false
     }
   },
   methods: {
@@ -120,6 +122,7 @@ export default {
       this.$router.back()
     },
     checkSeed: function (event) {
+      event.preventDefault()
       if (!bip39.validateMnemonic(this.seed_phrase)) {
         // mnemonic invalid
         this.$notify({
@@ -148,4 +151,3 @@ export default {
   }
 }
 </script>
-

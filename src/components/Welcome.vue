@@ -2,8 +2,8 @@
 <transition name="slide">
 <div>
   <h1 class="logotype-title">{{ $lang.welcome.welcome_text }}</h1>
-  <b-button variant="primary" to="/home/name" id="btnCreateAccount" class="my-2 mx-auto">{{ $lang.welcome.create_account_text }}</b-button>
-  <b-link to="/home/login" >{{ $lang.welcome.click_text }}</b-link>
+  <button class="center-block btn btn-primary" v-on:click="$router.push('/home/name')" id="btnCreateAccount">{{ $lang.welcome.create_account_text }}</button>
+  <a class="btn btn-link center-block" v-on:click="$router.push('/home/login')" >{{ $lang.welcome.click_text }}</a>
 </div>
 </transition>
 </template>
