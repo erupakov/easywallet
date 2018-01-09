@@ -51,8 +51,6 @@ import ethUtil from 'ethereumjs-util'
 import axios from 'axios'
 import VueRecaptcha from 'vue-recaptcha'
 
-const gSecret = '6Le6ez4UAAAAAGEaFQmlgbdeamm0J3Jsls2GpxDP'
-
 export default {
   name: 'NameAccount',
   components: { VueRecaptcha },
@@ -77,8 +75,8 @@ export default {
         this.$notify({
           group: 'flash',
           type: 'error',
-          title: 'Error',
-          text: 'Name and password should not be empty' + gSecret
+          title: 'Input error',
+          text: 'Name and password should not be empty'
         })
         return
       }
@@ -86,7 +84,7 @@ export default {
         this.$notify({
           group: 'flash',
           type: 'error',
-          title: 'Error',
+          title: 'Input error',
           text: 'Password and confirmation does not match'
         })
         return
@@ -96,7 +94,7 @@ export default {
         this.$notify({
           group: 'flash',
           type: 'error',
-          title: 'Error',
+          title: 'Input error',
           text: 'Need to pass ReCAPTCHA test before submitting'
         })
         return

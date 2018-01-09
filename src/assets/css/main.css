@@ -5422,7 +5422,7 @@ main {
           text-transform: uppercase; }
 
 .history-table-wrapper {
-  width: 1140px;
+  width: 100%;
   margin: auto; }
   .history-table-wrapper .back-btn {
     border: 0;

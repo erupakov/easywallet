@@ -8,5 +8,10 @@ module.exports = {
   enter_name_text: 'Enter name for your account',
   generating_account_text: 'Generating account...',
   confirm_pwd_text: 'Confirm your password',
-  agree_with_terms_text: 'I agree to the terms of service'
+  agree_with_terms_text: 'I agree to the terms of service',
+  terms_of_service_text_paragraph_1: 'Term 1',
+  terms_of_service_text_paragraph_2: 'Term 2',
+  terms_of_service_text_paragraph_3: 'Term 3',
+  read_here_text: 'read them here',
+  restore_account_btn: 'Restore account'
 }
