@@ -1,25 +1,25 @@
 <template>
 <div>
-<b-navbar toggleable="md" type="light" fixed>
-
-  <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-  <b-navbar-brand to="/account/manage"><img class="img-responsive" style="height: 50px;" alt="easyWallet logo" src="../assets/logo.png" /></b-navbar-brand>
-  <b-collapse is-nav id="nav_collapse">
-  <b-navbar-nav>
-    <b-nav-text><b>{{ acc_name }}</b>&nbsp;{{ acc_address }}</b-nav-text>
-    <b-nav-item v-on:click="copyAddress"><span class="fa fa-clone"></span></b-nav-item>
-  </b-navbar-nav>
-
-  <b-navbar-nav class="ml-auto">
-    <b-nav-item v-on:click="logoutWallet" right><span class="fa fa-power-off"></span></b-nav-item>
-  </b-navbar-nav>
-  </b-collapse>
-</b-navbar>
-<router-view></router-view>
+    <header class="header">
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#menu" aria-expanded="false"></button><a class="navbar-brand" href="/"><img src="../assets/images/logo.png" alt="logo"><span class="title">Easy Wallet</span></a>
+          </div>
+          <div class="collapse navbar-collapse" id="menu"><a class="menu" href="#"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <div class="main-wrapper">
+      <router-view></router-view>
+    </div>
 </div>
 </template>
 
 <script>
+import $ from 'jquery'
+
 export default {
   name: 'AccountLayout',
   data () {
@@ -29,6 +29,7 @@ export default {
     }
   },
   mounted: function () {
+    $('body').addClass('dashboard')
     this.onPageLoad()
   },
   methods: {

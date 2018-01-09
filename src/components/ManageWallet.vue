@@ -19,8 +19,8 @@
       <div class="modal-content">
         <h3 class="title">{{ $lang.manage_account.add_wallet_title }}</h3>
         <p>{{ $lang.manage_account.add_wallet_intro }}</p>
-        <a href="#" v-on:click="$router.push('/home/name')" class="btn btn-primary">{{ $lang.manage_account.add_wallet_new_btn }}</a>
-        <a href="#" v-on:click="$router.push('/home/login')" class="btn btn-primary">{{ $lang.manage_account.add_wallet_restore_btn }}</a>
+        <a href="#" v-on:click="goNew()" class="btn btn-primary">{{ $lang.manage_account.add_wallet_new_btn }}</a>
+        <a href="#" v-on:click="goRestore()" class="btn btn-primary">{{ $lang.manage_account.add_wallet_restore_btn }}</a>
       </div>
     </div>
   </div>
@@ -313,6 +313,14 @@ export default {
     sendFormShow: function (idx, event) {
       this.send_idx = idx
       $('#sendFunds').modal('show')
+    },
+    goNew: function (event) {
+      $('#addWallet').modal('hide')
+      this.$router.push('/home/name')
+    },
+    goRestore: function (event) {
+      $('#addWallet').modal('hide')
+      this.$router.push('/home/login')
     }
   }
 }
