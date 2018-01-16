@@ -184,6 +184,8 @@ export default {
       history_account_balance: 0,
       accounts: [],
       remove_idx: 0,
+      removemodal_account_name: '',
+      removemodal_account_address: '',
       send_idx: 0
     }
   },
@@ -298,6 +300,7 @@ export default {
       })
     },
     removeAccount: function (event) {
+      $('#removeModal').modal('hide')
       var wallet = this.$ls.get('wallet', [])
       wallet['accounts'].splice(this.remove_idx, 1)
       this.accounts.splice(this.remove_idx, 1)
