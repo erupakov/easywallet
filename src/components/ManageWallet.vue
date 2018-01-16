@@ -40,7 +40,7 @@
               <input id="ethSendTo"
                       type="text"
                       v-model="sendform_to"
-                      class="form-control" 
+                      class="form-control"
                       required
                       :placeholder="$lang.manage_account.send_funds_address_placeholder">
           </div>
@@ -113,7 +113,7 @@
                   <td>
                     <a class="btn btn-primary" name="btnCheckEtherscan" :href="item.link" target="_blank">View on Etherscan</a>
                   </td>
-                </tr>              
+                </tr>
               </tbody>
             </table>
           <div class="numbers"><a class="number" href="#">1</a><a class="number" href="#">2</a><a class="number" href="#">3</a></div>
@@ -300,7 +300,7 @@ export default {
     removeAccount: function (event) {
       var wallet = this.$ls.get('wallet', [])
       wallet['accounts'].splice(this.remove_idx, 1)
-      this.test_accounts.splice(this.remove_idx, 1)
+      this.accounts.splice(this.remove_idx, 1)
       this.$ls.set('wallet', wallet)
     },
     showRemoveCard: function (idx, event) {
