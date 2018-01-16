@@ -21,7 +21,7 @@
     "ethereumjs-util": "^5.1.3",
     "ethers": "^2.1.3",
     "ethjs-util": "^0.1.4",
-    "jquery": "^1.9.1",
+    "jquery": "^1.12.4",
     "jquery-mousewheel": "^3.1.13",
     "malihu-custom-scrollbar-plugin": "^3.1.5",
     "strip-hex-prefix": "^1.0.0",
