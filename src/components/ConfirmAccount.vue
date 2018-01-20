@@ -1,15 +1,21 @@
 <template>
-<transition name="slide">
-<div style="width: 100%;" class="d-flex justify-content-center">
-    <div class="d-flex flex-column text-center">
-        <p>{{ backup_msg }}</p>
-        <b-form-textarea rows="4"  v-model="seed_phrase" placeholder="Enter seed phrase"/>
-        <div class="my-2 mx-auto">
-          <div v-if="show_spinner" class="d-flex justify-content-center"><p>{{ modal_label }} <span class="fa fa-spinner fa-spin fa-2x fa-fw"></span></p></div>
-	        <b-button variant="danger" v-on:click="goBack" id="btnBack">{{ btn_back_msg }}</b-button>        
-	        <b-button variant="primary" v-on:click="checkSeed" id="btnConfirm">{{ btn_confirm_msg }}</b-button>
+<transition name="slide" v-on:submit="checkSeed">
+<div>
+        <form class="relogin" ref="formConfirm">
+          <div class="form-group">
+            <label for="inputPhrase" class="control-label">{{ $lang.confirm_account.backup_text }}</label>
+            <input class="form-control" id="inputPhrase" name="inputPhrase" v-model="seed_phrase" type="text" placeholder="Enter seed phrase" required>
+            <button type="submit">
+              <svg>
+                <use xlink:href="#icon-arrow-right"></use>
+              </svg>
+            </button>
+          </div>
+        </form>
+        <div class="underform-line clearfix">
+            <a class="pull-left" :href="$router.back()">{{ $lang.confirm_account.btn_back_text }}</a>
+            <a class="pull-right" :href="this.$refs.formConfirm.submit()">{{ $lang.confirm_account.btn_confirm_text.btn_confirm_text }}</a>
         </div>
-    </div>
 </div>
 </transition>
 </template>
