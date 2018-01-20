@@ -2,19 +2,16 @@
 <transition name="slide">
 <div>
   <h1 class="logotype-title">{{ $lang.welcome.welcome_text }}</h1>
-  <form class="login">
+  <form class="login" @submit.prevent="$router.push('/home/confirm')" ref="createForm">
     <h3>{{ $lang.create_account.title_text }}</h3>
     <p class="alert alert-warning">{{ $lang.create_account.backup_text }}</p>
     <div class="form-group generated-phrase">
       <input class="form-control" id="inputPhrase" type="text" :value="seed_phrase" readonly required>
-      <button class="copy-button" type="button" data-id="inputPhrase">
-        <svg>
-          <use xlink:href="#icon-copy"></use>
-        </svg>
-      </button>
     </div>
   </form>
-  <div class="underform-line clearfix"><a class="pull-left" :href="$router.back()">Forgot Phrase?</a><a class="pull-right" href="#" v-on:click="$router.push('/home/confirm')" id="btnManageAccount">Confirm</a></div>
+  <div class="underform-line clearfix">
+    <a class="pull-left" href="#" v-on:click="$router.back()">{{ $lang.create_account.btn_back_text}}</a>
+    <a class="pull-right" href="#" v-on:click="$refs.createForm.submit()" id="btnManageAccount">{{ $lang.create_account.btn_create_text }}</a></div>
 </div>
 </transition>
 </template>

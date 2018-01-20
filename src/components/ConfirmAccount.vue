@@ -1,10 +1,10 @@
 <template>
-<transition name="slide" v-on:submit="checkSeed">
+<transition name="slide" v-on:submit.prevent="checkSeed">
 <div>
         <form class="relogin" ref="formConfirm">
           <div class="form-group">
             <label for="inputPhrase" class="control-label">{{ $lang.confirm_account.backup_text }}</label>
-            <input class="form-control" id="inputPhrase" name="inputPhrase" v-model="seed_phrase" type="text" placeholder="Enter seed phrase" required>
+            <input class="form-control" id="inputPhrase" name="inputPhrase" v-model="seed_phrase" type="text" :placeholder="$lang.confirm_account.enter_seed_text" required>
             <button type="submit">
               <svg>
                 <use xlink:href="#icon-arrow-right"></use>
@@ -13,8 +13,8 @@
           </div>
         </form>
         <div class="underform-line clearfix">
-            <a class="pull-left" :href="$router.back()">{{ $lang.confirm_account.btn_back_text }}</a>
-            <a class="pull-right" :href="this.$refs.formConfirm.submit()">{{ $lang.confirm_account.btn_confirm_text.btn_confirm_text }}</a>
+            <a class="pull-left" href="#" @click="$router.back()">{{ $lang.confirm_account.btn_back_text }}</a>
+            <a class="pull-right" href="#" @click="this.$refs.formConfirm.submit()">{{ $lang.confirm_account.btn_confirm_text.btn_confirm_text }}</a>
         </div>
 </div>
 </transition>

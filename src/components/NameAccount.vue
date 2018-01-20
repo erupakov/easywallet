@@ -15,14 +15,14 @@
       <div class="form-group">
         <input id="checkbox1" class="form-control" type="checkbox" v-model="agree_with_terms" value="accepted">
           {{ $lang.confirm_account.agree_with_terms_text }}
-          <a class="btn btn-link" data-target="serviceTerms" data-toggle="modal" href="#">{{ $lang.confirm_account.read_here_text }}</a>
+          <a class="btn btn-link" data-target="#serviceTerms" data-toggle="modal" href="#">{{ $lang.confirm_account.read_here_text }}</a>
       </div>
       <div class="form-group">      
         <vue-recaptcha sitekey="6Le6ez4UAAAAAGUDVxtXhzdFuvCEwswpevK03Yd4" ref="recaptcha"
           @verify="onVerify"
           @expired="onExpired"></vue-recaptcha>
       </div>
-            <button type="submit"><span>Create Account</span>
+            <button type="submit"><span>{{ $lang.confirm_account.create_account_btn }}</span>
               <svg>
                 <use xlink:href="#icon-arrow-right"></use>
               </svg>

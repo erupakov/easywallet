@@ -4,6 +4,7 @@ module.exports = {
   title_text: 'Your account has been created!',
   btn_copied_text: 'I have copied my seed phrase.',
   btn_back_text: 'Back',
+  btn_create_text: 'Create',
   notif_account_created_text: 'Account was successfully created',
   notif_account_created_title: 'Account created'
 }

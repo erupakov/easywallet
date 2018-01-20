@@ -2,7 +2,7 @@
 <transition>
 <div>
         <h1 class="logotype-title">{{ account_name }}</h1>
-        <div class="login">
+        <form class="login">
           <div class="form-group">
             <input class="form-control" id="inputPhrase" type="text" placeholder="Phrase" required>
             <button type="submit">
@@ -14,7 +14,7 @@
         </div>
         <div class="underform-line clearfix">
           <a class="pull-left" href="#">{{ $lang.password_account.another_account_msg }}</a>
-          <a class="pull-right" href="login.html">Logout</a>
+          <a class="pull-right" href="#">Confirm</a>
         </div>
 </div>
 <div style="width: 100%;" class="d-flex justify-content-center">
