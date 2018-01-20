@@ -2,7 +2,7 @@
 <div class="wallet main">
   <div class="title">
     <div class="icon"><img src="../assets/images/icon-eth.png" alt="eth"></div>
-    <div class="name"><span class="curr-name">Etherium</span><span class="curr-sub">ETH</span></div>
+    <div class="name"><span class="curr-name">Next</span><span class="curr-sub">NXT</span></div>
   </div>
   <div class="code">
     <div class="code-title"><span>{{ account_name }}</span></div>

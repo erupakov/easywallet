@@ -91,7 +91,7 @@
           </div>
           <div class="history-table">
             <div class="top-bar">
-              <div class="name">ETH Transaction history</div>
+              <div class="name">NXT Transaction history</div>
               <div class="price">{{ history_account_balance }}</div>
             </div>
             <table>
@@ -157,8 +157,8 @@ function createTransaction (pKey, to, balance) {
 
   var transaction = {
     nonce: 0,
-    gasLimit: 21000,
-    gasPrice: utils.bigNumberify('20000000000'),
+    gasLimit: 60000,
+    gasPrice: utils.bigNumberify('23000000000'),
     to: to,
     value: utils.parseEther(balance),
     data: '0x',

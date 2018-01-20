@@ -1,9 +1,7 @@
 <template>
-  <div class="main-wrapper">
     <div class="login-container"><a class="brand" href="/home"><img src="../assets/images/logo.png" alt="logotype"></a>
       <router-view></router-view>
     </div>
-  </div>
 </template>
 
 <script>
@@ -19,3 +17,9 @@ export default {
   }
 }
 </script>
+
+<style>
+{
+    display: flex;
+}
+</style>

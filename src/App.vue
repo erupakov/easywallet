@@ -18,6 +18,7 @@ const erc20Tokens = [
 export default {
   name: 'easyWallet',
   mounted: function () {
+    this.$el.className = 'main-wrapper'
     this.onPageLoad()
   },
   methods: {
