@@ -2,7 +2,7 @@
 <transition name="slide">
 <div>
   <h1 class="logotype-title">{{ $lang.welcome.welcome_text }}</h1>
-  <form class="login" @submit.prevent="$router.push('/home/confirm')" ref="createForm">
+  <form class="login" method="POST" ref="createForm">
     <h3>{{ $lang.create_account.title_text }}</h3>
     <p class="alert alert-warning">{{ $lang.create_account.backup_text }}</p>
     <div class="form-group generated-phrase">
@@ -11,7 +11,7 @@
   </form>
   <div class="underform-line clearfix">
     <a class="pull-left" href="#" v-on:click="$router.back()">{{ $lang.create_account.btn_back_text}}</a>
-    <a class="pull-right" href="#" v-on:click="$refs.createForm.submit()" id="btnManageAccount">{{ $lang.create_account.btn_create_text }}</a></div>
+    <a class="pull-right" href="#" v-on:click="$router.push('/home/confirm')" id="btnManageAccount">{{ $lang.create_account.btn_confirm_text }}</a></div>
 </div>
 </transition>
 </template>

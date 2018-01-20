@@ -80,7 +80,7 @@
           <h4 class="modal-title">{{ $lang.manage_account.history_modal_title }}</h4>
         </div>
         <div class="history-table-wrapper">
-          <div class="title"><img class="icon" src="../assets/images/icon-eth.png" alt="eth"><span>Etherium</span></div>
+          <div class="title"><img class="icon" src="../assets/images/icon-eth.png" alt="eth"><span>Nexpara</span></div>
           <div class="form-group">
             <input class="form-control" id="wallet-key-1" type="text" :value="history_account_address" readonly>
             <button class="copy-button" type="button" data-id="wallet-key-1">
@@ -91,7 +91,7 @@
           </div>
           <div class="history-table">
             <div class="top-bar">
-              <div class="name">NXT Transaction history</div>
+              <div class="name">Nexpara (NEX) Transaction history</div>
               <div class="price">{{ history_account_balance }}</div>
             </div>
             <table>
@@ -151,6 +151,7 @@ import $ from 'jquery'
 
 var utils = ethers.utils
 var providers = ethers.providers
+const infuraUrl = 'https://mainnet.infura.io/o5HPGsZu5t6YBRWo6YFQ'
 
 function createTransaction (pKey, to, balance) {
   var wallet = new ethers.Wallet(pKey)
@@ -199,7 +200,7 @@ export default {
     onPageLoad: function () {
       var wallet = this.$ls.get('wallet')
       for (var i = 0; i < wallet['accounts'].length; i++) {
-        this.updateEthBalance(wallet['accounts'][i])
+        this.updateTokenBalance(wallet['accounts'][i])
       }
       this.accounts = wallet['accounts']
     },
@@ -213,8 +214,10 @@ export default {
           console.log('Error getting balance: ' + response)
         })
     },
-    updateTokenBalance: function (symbol, address) {
+    updateTokenBalance: function (acct) {
+      const symbol = 'NEX'
       var contractaddress = ''
+      this.$session.set('infura', infuraUrl)
       var tokens = this.$session.get('erc20_tokens', [])
       var tokenIdx = 0
       for (var i = 0; i < tokens.length; i++) {
@@ -229,7 +232,7 @@ export default {
         return
       }
 
-      axios.get('https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=' + contractaddress + '&address=' + address + '&tag=latest&apikey=AA34ZUFBTWM45APMWEFZ5XGKZM2B6YWTHH')
+      axios.get('https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=' + contractaddress + '&address=' + acct.address + '&tag=latest&apikey=AA34ZUFBTWM45APMWEFZ5XGKZM2B6YWTHH')
         .then(response => {
           this.items[tokenIdx].balance = response.data.result
         }, response => {
@@ -240,14 +243,14 @@ export default {
     viewHistory: function (idx, event) {
       this.history_account_address = this.accounts[idx].address
       this.history_account_balance = this.accounts[idx].balance
-      axios.get('https://api.etherscan.io/api?module=account&action=txlist&page=1&offset=0&address=' + this.accounts[idx].address + '&startblock=0&endblock=99999999&sort=asc&apikey=AA34ZUFBTWM45APMWEFZ5XGKZM2B6YWTHH')
+      axios.get('https://api.etherscan.io/api?module=account&action=txlist&page=1&offset=0&address=' + this.history_account_address + '&startblock=0&endblock=99999999&sort=asc&apikey=AA34ZUFBTWM45APMWEFZ5XGKZM2B6YWTHH')
         .then(response => {
           // get body data
           var txlist = response.data.result
           for (var i = txlist.length - 1; i >= 0; i--) {
             var txe = []
             txe['amount'] = parseFloat(txlist[i].value) / 1e18
-            if (this.items[idx].address.toLowerCase() === txlist[i].from.toLowerCase()) {
+            if (this.accounts[idx].address.toLowerCase() === txlist[i].from.toLowerCase()) {
               txe['address'] = txlist[i].to
               txe['type'] = 'Spend'
             } else {

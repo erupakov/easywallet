@@ -1,7 +1,7 @@
 <template>
-<transition name="slide" v-on:submit.prevent="checkSeed">
+<transition name="slide">
 <div>
-        <form class="relogin" ref="formConfirm">
+        <form class="relogin" ref="formConfirm" v-on:submit.prevent="checkSeed" method="POST">
           <div class="form-group">
             <label for="inputPhrase" class="control-label">{{ $lang.confirm_account.backup_text }}</label>
             <input class="form-control" id="inputPhrase" name="inputPhrase" v-model="seed_phrase" type="text" :placeholder="$lang.confirm_account.enter_seed_text" required>
